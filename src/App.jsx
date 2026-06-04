@@ -118,7 +118,7 @@ function DrillScreen() {
   return (
     <div>
       <h1>Linux Command Trainer</h1>
-      <p className="prompt">{command.short_desc}</p>
+      <p className="prompt">{mode === 'scenario' ? command.scenario : command.short_desc}</p>
       <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
       {feedback && !retirePrompt && (
         <p className={`feedback ${feedback}`}>
@@ -152,9 +152,9 @@ function DrillScreen() {
             Restore retired commands ({retiredCount})
           </button>
         )}
-        <button className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
-          ← Back to categories
-        </button>
+        <span className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
+  ← Back to categories
+</span>
       </div>
     </div>
   )

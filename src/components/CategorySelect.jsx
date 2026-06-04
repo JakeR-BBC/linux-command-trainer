@@ -49,9 +49,9 @@ return (
         </button>
       </div>
       <div className="drill-footer">
-        <button className="back-btn" onClick={() => navigate('/')}>
-          ← Back to modes
-        </button>
+        <span className="back-btn" onClick={() => navigate('/')}>
+        ← Back to modes
+        </span>
       </div>
     </div>
   )

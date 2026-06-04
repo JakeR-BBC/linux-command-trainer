@@ -151,19 +151,16 @@ h1 {
 }
 
 .back-btn {
-  background: transparent;
-  border: none;
+  display: inline-block;
   color: #888;
   font-family: monospace;
   font-size: 0.9rem;
   cursor: pointer;
-  margin-top: 1.5rem;
-  padding: 0;
+  transition: color 0.2s;
 }
 
 .back-btn:hover {
   color: #f0f0f0;
-  background: transparent;
 }
 
 /* Retire prompt */

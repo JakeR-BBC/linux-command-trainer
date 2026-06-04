@@ -25,8 +25,13 @@ function App() {
   return (
     <div>
       <h1>Linux Command Trainer</h1>
+      <p className="prompt">{command.short_desc}</p>
       <DrillCard command={command} onSubmit={handleSubmit} />
-      {feedback && <p>{feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}</p>}
+      {feedback && (
+        <p className={`feedback ${feedback}`}>
+          {feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}
+        </p>
+      )}
     </div>
   )
 }

@@ -17,20 +17,28 @@ function DrillCard({ command, onSubmit }) {
   }
 
   return (
-    <div className="drill-card">
-      <p className="prompt">{command.short_desc}</p>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Type the command..."
-        autoComplete="off"
-        autoCorrect="off"
-        autoCapitalize="off"
-        spellCheck="false"
-      />
-      <button onClick={handleSubmit}>Submit</button>
+    <div className="terminal">
+      <div className="terminal-titlebar">
+        <span className="dot red"></span>
+        <span className="dot yellow"></span>
+        <span className="dot green"></span>
+      </div>
+      <div className="terminal-body">
+        <span className="terminal-prompt">user@linux:~$</span>
+        <input
+          className="terminal-input"
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="type a command..."
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+          autoFocus
+        />
+      </div>
     </div>
   )
 }

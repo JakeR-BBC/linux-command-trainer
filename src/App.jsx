@@ -8,7 +8,7 @@ function getRandomCommand(currentId) {
 }
 
 function App() {
-  const [command, setCommand] = useState(commands[0])
+  const [command, setCommand] = useState(commands[Math.floor(Math.random() * commands.length)])
   const [feedback, setFeedback] = useState(null)
 
   function handleSubmit(isCorrect) {

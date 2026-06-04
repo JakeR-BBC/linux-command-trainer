@@ -4,6 +4,8 @@ import { getRetiredCount } from '../utils/progress'
 
 function CategorySelect() {
   const navigate = useNavigate()
+  const params = new URLSearchParams(window.location.search)
+  const mode = params.get('mode')
   const categories = [...new Set(commands.map(c => c.category))]
 
   function getCount(category) {
@@ -14,7 +16,7 @@ function CategorySelect() {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
-  return (
+return (
     <div className="category-select">
       <h1>Linux Command Trainer</h1>
       <p className="subtitle">Pick a category to drill</p>
@@ -28,7 +30,7 @@ function CategorySelect() {
             <button
               key={category}
               className="category-btn"
-              onClick={() => navigate(`/drill?category=${category}`)}
+              onClick={() => navigate(`/drill?mode=${mode}&category=${category}`)}
             >
               {capitalise(category)}
               <span className="count">{active}/{total}</span>
@@ -40,10 +42,15 @@ function CategorySelect() {
         })}
         <button
           className="category-btn all"
-          onClick={() => navigate('/drill?category=all')}
+          onClick={() => navigate(`/drill?mode=${mode}&category=all`)}
         >
           All Commands
           <span className="count">({commands.length})</span>
+        </button>
+      </div>
+      <div className="drill-footer">
+        <button className="back-btn" onClick={() => navigate('/')}>
+          ← Back to modes
         </button>
       </div>
     </div>

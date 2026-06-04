@@ -163,6 +163,7 @@ h1 {
 
 .back-btn:hover {
   color: #f0f0f0;
+  background: transparent;
 }
 
 /* Retire prompt */
@@ -247,4 +248,25 @@ h1 {
 
 .completed-screen .retire-actions {
   justify-content: center;
+}
+
+.mode-btn {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+}
+
+.mode-icon {
+  font-size: 1.5rem;
+}
+
+.mode-name {
+  font-size: 1.1rem;
+  color: #f0f0f0;
+}
+
+.mode-desc {
+  color: #888;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: center;
 }

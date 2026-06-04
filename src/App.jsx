@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
+import ModeSelect from './components/ModeSelect'
 import commands from './commands.json'
 import {
   incrementCorrect,
   retireCommand,
   restoreCategory,
   isRetired,
-  getCorrectCount,
   getRetiredCount
 } from './utils/progress'
 
@@ -21,6 +21,7 @@ function DrillScreen() {
   const navigate = useNavigate()
   const params = new URLSearchParams(window.location.search)
   const selected = params.get('category')
+  const mode = params.get('mode')
   const isAll = selected === 'all'
 
   function getActivePool() {
@@ -32,10 +33,10 @@ function DrillScreen() {
   }
 
   const [command, setCommand] = useState(() => {
-  const pool = getActivePool()
-  if (pool.length === 0) return null
-  return pool[Math.floor(Math.random() * pool.length)]
-})
+    const pool = getActivePool()
+    if (pool.length === 0) return null
+    return pool[Math.floor(Math.random() * pool.length)]
+  })
   const [feedback, setFeedback] = useState(null)
   const [retirePrompt, setRetirePrompt] = useState(false)
   const [retiredCount, setRetiredCount] = useState(() =>
@@ -95,30 +96,24 @@ function DrillScreen() {
     setRetirePrompt(false)
   }
 
-  function handleKeyDown(e) {
-    if (!retirePrompt) return
-    if (e.key === 'Enter') handleRetire(true)
-    if (e.key === 'Backspace') handleRetire(false)
-  }
-
   if (!command) {
-  return (
-    <div className="completed-screen">
-      <h1>Linux Command Trainer</h1>
-      <div className="retire-prompt">
-        <p>🎉 You've nailed every command in this category!</p>
-        <div className="retire-actions">
-          <button className="retire-btn yes" onClick={handleRestore}>
-            Reset category
-          </button>
-          <button className="retire-btn no" onClick={() => navigate('/')}>
-            ← Back to categories
-          </button>
+    return (
+      <div className="completed-screen">
+        <h1>Linux Command Trainer</h1>
+        <div className="retire-prompt">
+          <p>🎉 You've nailed every command in this category!</p>
+          <div className="retire-actions">
+            <button className="retire-btn yes" onClick={handleRestore}>
+              Reset category
+            </button>
+            <button className="retire-btn no" onClick={() => navigate('/')}>
+              ← Back to categories
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 
   return (
     <div>
@@ -130,35 +125,34 @@ function DrillScreen() {
           {feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}
         </p>
       )}
-{retirePrompt && (
-  <div
-    className="retire-prompt"
-    tabIndex={0}
-    autoFocus
-    ref={el => el && el.focus()}
-    onKeyDown={(e) => {
-      if (e.key === 'Enter') handleRetire(true)
-      if (e.key === 'Backspace') handleRetire(false)
-    }}
-  >
-    <p>You've nailed <span className="highlight">{command.command}</span> 3 times — retire it from this category for now?</p>
-    <div className="retire-actions">
-      <button className="retire-btn yes" onClick={() => handleRetire(true)}>
-        Yes, retire it <span className="key-hint">↵ Enter</span>
-      </button>
-      <button className="retire-btn no" onClick={() => handleRetire(false)}>
-        Keep drilling it <span className="key-hint">⌫ Backspace</span>
-      </button>
-    </div>
-  </div>
-  )}
+      {retirePrompt && (
+        <div
+          className="retire-prompt"
+          tabIndex={0}
+          ref={el => el && el.focus()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleRetire(true)
+            if (e.key === 'Backspace') handleRetire(false)
+          }}
+        >
+          <p>You've nailed <span className="highlight">{command.command}</span> 3 times — retire it from this category for now?</p>
+          <div className="retire-actions">
+            <button className="retire-btn yes" onClick={() => handleRetire(true)}>
+              Yes, retire it <span className="key-hint">↵ Enter</span>
+            </button>
+            <button className="retire-btn no" onClick={() => handleRetire(false)}>
+              Keep drilling it <span className="key-hint">⌫ Backspace</span>
+            </button>
+          </div>
+        </div>
+      )}
       <div className="drill-footer">
         {!isAll && retiredCount > 0 && (
           <button className="restore-btn" onClick={handleRestore}>
             Restore retired commands ({retiredCount})
           </button>
         )}
-        <button className="back-btn" onClick={() => navigate('/')}>
+        <button className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
           ← Back to categories
         </button>
       </div>
@@ -169,7 +163,8 @@ function DrillScreen() {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<CategorySelect />} />
+      <Route path="/" element={<ModeSelect />} />
+      <Route path="/category" element={<CategorySelect />} />
       <Route path="/drill" element={<DrillScreen />} />
     </Routes>
   )

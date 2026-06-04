@@ -267,3 +267,59 @@ h1 {
   line-height: 1.4;
   text-align: center;
 }
+
+/* Recognition card */
+.recognition-card {
+  width: 100%;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.options-grid:has(.option-btn:only-child) {
+  grid-template-columns: 1fr;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.options-grid .option-btn:only-child {
+  text-align: center;
+}
+
+.option-btn {
+  background-color: #0d1117;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #f0f0f0;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+  text-align: center;
+}
+
+.option-btn:hover {
+  border-color: #28c840;
+  background-color: #111;
+}
+
+.option-btn.correct {
+  border-color: #28c840;
+  background-color: rgba(40, 200, 64, 0.1);
+  color: #28c840;
+}
+
+.option-btn.incorrect {
+  border-color: #ff5f57;
+  background-color: rgba(255, 95, 87, 0.1);
+  color: #ff5f57;
+}
+
+.option-btn.dimmed {
+  opacity: 0.4;
+  cursor: default;
+}

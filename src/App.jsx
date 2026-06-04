@@ -4,6 +4,7 @@ import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
 import ModeSelect from './components/ModeSelect'
 import commands from './commands.json'
+import RecognitionCard from './components/RecognitionCard'
 import {
   incrementCorrect,
   retireCommand,
@@ -50,18 +51,33 @@ function DrillScreen() {
     return others[Math.floor(Math.random() * others.length)]
   }
 
-  function handleSubmit(isCorrect) {
+function handleSubmit(isCorrect) {
     setFeedback(isCorrect ? 'correct' : 'incorrect')
 
     if (isCorrect) {
       const newCount = incrementCorrect(command.id)
-      if (!isAll && newCount >= 3) {
+      const pool = getActivePool()
+      const isLastCommand = pool.filter(c => c.id !== command.id).length === 0
+
+      if (!isAll && isLastCommand && mode === 'recognition') {
+        retireCommand(command.id, selected)
+        setTimeout(() => {
+          navigate(`/category?mode=${mode}`)
+        }, 1000)
+      } else if (!isAll && newCount >= 3) {
         setRetirePrompt(true)
       } else {
         setTimeout(() => {
           setCommand(nextCommand(command.id))
           setFeedback(null)
         }, 1000)
+      }
+    } else {
+      if (mode === 'recognition') {
+        setTimeout(() => {
+          setCommand(nextCommand(command.id))
+          setFeedback(null)
+        }, 1500)
       }
     }
   }
@@ -119,7 +135,10 @@ function DrillScreen() {
     <div>
       <h1>Linux Command Trainer</h1>
       <p className="prompt">{mode === 'scenario' ? command.scenario : command.short_desc}</p>
-      <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
+      {mode === 'recognition'
+  ? <RecognitionCard command={command} pool={getActivePool()} onSubmit={handleSubmit} />
+  : <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
+}
       {feedback && !retirePrompt && (
         <p className={`feedback ${feedback}`}>
           {feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}

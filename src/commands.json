@@ -1,0 +1,600 @@
+[
+  {
+    "id": "pwd",
+    "command": "pwd",
+    "short_desc": "Print the current working directory",
+    "scenario": "You've lost track of where you are in the file system and need to confirm your current location",
+    "category": "navigation",
+    "common_flags": [],
+    "example": "pwd",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "ls",
+    "command": "ls",
+    "short_desc": "List the contents of a directory",
+    "scenario": "You want to see all the files and folders in your current directory",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-l", "desc": "Show detailed list with permissions and sizes" },
+      { "flag": "-a", "desc": "Show hidden files" },
+      { "flag": "-h", "desc": "Show file sizes in human readable format" }
+    ],
+    "example": "ls -lah",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "cd",
+    "command": "cd",
+    "short_desc": "Change the current directory",
+    "scenario": "You want to navigate into a folder called projects",
+    "category": "navigation",
+    "common_flags": [],
+    "example": "cd ~/projects",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "cp",
+    "command": "cp",
+    "short_desc": "Copy a file or directory",
+    "scenario": "You want to make a backup copy of a config file before editing it",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-r", "desc": "Copy directories recursively" },
+      { "flag": "-i", "desc": "Prompt before overwriting" }
+    ],
+    "example": "cp config.yml config.yml.bak",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "mv",
+    "command": "mv",
+    "short_desc": "Move or rename a file or directory",
+    "scenario": "You want to rename a file called old-name.txt to new-name.txt",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-i", "desc": "Prompt before overwriting" }
+    ],
+    "example": "mv old-name.txt new-name.txt",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "rm",
+    "command": "rm",
+    "short_desc": "Remove a file or directory",
+    "scenario": "You want to delete a temporary file you no longer need",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-r", "desc": "Remove directories recursively" },
+      { "flag": "-f", "desc": "Force removal without prompting" }
+    ],
+    "example": "rm temp.txt",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "mkdir",
+    "command": "mkdir",
+    "short_desc": "Create a new directory",
+    "scenario": "You want to create a new folder called reports in your current location",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-p", "desc": "Create parent directories as needed" }
+    ],
+    "example": "mkdir -p projects/reports",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "touch",
+    "command": "touch",
+    "short_desc": "Create an empty file or update a file's timestamp",
+    "scenario": "You want to quickly create a new empty file called notes.txt",
+    "category": "navigation",
+    "common_flags": [],
+    "example": "touch notes.txt",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "find",
+    "command": "find",
+    "short_desc": "Search for files and directories",
+    "scenario": "You want to locate all .log files anywhere under your current directory",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-name", "desc": "Search by filename or pattern" },
+      { "flag": "-type", "desc": "Filter by type, f for file, d for directory" }
+    ],
+    "example": "find . -name '*.log'",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "locate",
+    "command": "locate",
+    "short_desc": "Quickly find files by name using a pre-built index",
+    "scenario": "You want to find a file called nginx.conf anywhere on the system without waiting for a full search",
+    "category": "navigation",
+    "common_flags": [
+      { "flag": "-i", "desc": "Case-insensitive search" }
+    ],
+    "example": "locate nginx.conf",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "cat",
+    "command": "cat",
+    "short_desc": "Print the contents of a file to the terminal",
+    "scenario": "You want to quickly read the contents of a small config file",
+    "category": "files",
+    "common_flags": [
+      { "flag": "-n", "desc": "Show line numbers" }
+    ],
+    "example": "cat config.yml",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "less",
+    "command": "less",
+    "short_desc": "View file contents one page at a time",
+    "scenario": "You want to read a large log file without flooding your terminal",
+    "category": "files",
+    "common_flags": [
+      { "flag": "-N", "desc": "Show line numbers" }
+    ],
+    "example": "less /var/log/syslog",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "head",
+    "command": "head",
+    "short_desc": "Show the first lines of a file",
+    "scenario": "You want to quickly check the top 10 lines of a log file",
+    "category": "files",
+    "common_flags": [
+      { "flag": "-n", "desc": "Specify how many lines to show" }
+    ],
+    "example": "head -n 10 server.log",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "tail",
+    "command": "tail",
+    "short_desc": "Show the last lines of a file",
+    "scenario": "You want to watch a log file update in real time as events come in",
+    "category": "files",
+    "common_flags": [
+      { "flag": "-n", "desc": "Specify how many lines to show" },
+      { "flag": "-f", "desc": "Follow the file and show new lines as they are added" }
+    ],
+    "example": "tail -f server.log",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "nano",
+    "command": "nano",
+    "short_desc": "Open a simple terminal text editor",
+    "scenario": "You need to make a quick edit to a config file directly in the terminal",
+    "category": "files",
+    "common_flags": [],
+    "example": "nano config.yml",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "vim",
+    "command": "vim",
+    "short_desc": "Open a powerful but more complex terminal text editor",
+    "scenario": "You need to edit a file on a remote server where no other editor is available",
+    "category": "files",
+    "common_flags": [],
+    "example": "vim config.yml",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "diff",
+    "command": "diff",
+    "short_desc": "Compare two files line by line and show differences",
+    "scenario": "You want to see what changed between your original config and an updated version",
+    "category": "files",
+    "common_flags": [
+      { "flag": "-u", "desc": "Show differences in unified format, easier to read" }
+    ],
+    "example": "diff config.yml config.yml.bak",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "chmod",
+    "command": "chmod",
+    "short_desc": "Change the permissions of a file or directory",
+    "scenario": "You want to make a shell script executable so you can run it",
+    "category": "permissions",
+    "common_flags": [
+      { "flag": "-R", "desc": "Apply changes recursively to a directory" }
+    ],
+    "example": "chmod +x deploy.sh",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "chown",
+    "command": "chown",
+    "short_desc": "Change the owner of a file or directory",
+    "scenario": "You want to transfer ownership of a folder to a different user",
+    "category": "permissions",
+    "common_flags": [
+      { "flag": "-R", "desc": "Apply changes recursively to a directory" }
+    ],
+    "example": "chown john:john /home/john/projects",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "sudo",
+    "command": "sudo",
+    "short_desc": "Run a command with superuser privileges",
+    "scenario": "You need to install a package but get a permissions error as a regular user",
+    "category": "permissions",
+    "common_flags": [],
+    "example": "sudo apt install nginx",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "su",
+    "command": "su",
+    "short_desc": "Switch to another user account in the terminal",
+    "scenario": "You need to perform several actions as a different user without using sudo each time",
+    "category": "permissions",
+    "common_flags": [
+      { "flag": "-", "desc": "Switch and load the target user's full environment" }
+    ],
+    "example": "su - deploy",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "grep",
+    "command": "grep",
+    "short_desc": "Search for a pattern in text or files",
+    "scenario": "You want to find every line containing the word error in a log file",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-r", "desc": "Search recursively through directories" },
+      { "flag": "-i", "desc": "Case-insensitive search" },
+      { "flag": "-n", "desc": "Show line numbers alongside matches" }
+    ],
+    "example": "grep -rn 'error' ./logs/",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "awk",
+    "command": "awk",
+    "short_desc": "Process and extract columns from structured text",
+    "scenario": "You have a CSV file and want to print only the first and third columns",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-F", "desc": "Set the field separator character" }
+    ],
+    "example": "awk -F',' '{print $1, $3}' data.csv",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "sed",
+    "command": "sed",
+    "short_desc": "Find and replace text in a file or stream",
+    "scenario": "You want to replace every occurrence of localhost with a production URL in a config file",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-i", "desc": "Edit the file in place rather than printing to terminal" },
+      { "flag": "-e", "desc": "Pass multiple expressions in one command" }
+    ],
+    "example": "sed -i 's/localhost/prod.example.com/g' config.yml",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "sort",
+    "command": "sort",
+    "short_desc": "Sort lines of text alphabetically or numerically",
+    "scenario": "You have a list of names in a file and want them sorted alphabetically",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-r", "desc": "Sort in reverse order" },
+      { "flag": "-n", "desc": "Sort numerically rather than alphabetically" }
+    ],
+    "example": "sort names.txt",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "uniq",
+    "command": "uniq",
+    "short_desc": "Remove duplicate consecutive lines from output",
+    "scenario": "You have a sorted log file and want to collapse repeated identical lines into one",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-c", "desc": "Show a count of how many times each line appeared" }
+    ],
+    "example": "sort server.log | uniq -c",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "wc",
+    "command": "wc",
+    "short_desc": "Count lines, words, or characters in a file",
+    "scenario": "You want to know how many lines are in a log file",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-l", "desc": "Count lines only" },
+      { "flag": "-w", "desc": "Count words only" },
+      { "flag": "-c", "desc": "Count characters only" }
+    ],
+    "example": "wc -l server.log",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "cut",
+    "command": "cut",
+    "short_desc": "Extract specific columns or fields from text",
+    "scenario": "You want to extract just the username column from a colon-separated file",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-d", "desc": "Set the delimiter character" },
+      { "flag": "-f", "desc": "Specify which field number to extract" }
+    ],
+    "example": "cut -d':' -f1 /etc/passwd",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "tr",
+    "command": "tr",
+    "short_desc": "Translate or delete characters in text",
+    "scenario": "You want to convert all lowercase letters in a file to uppercase",
+    "category": "search",
+    "common_flags": [
+      { "flag": "-d", "desc": "Delete specified characters rather than replacing them" }
+    ],
+    "example": "cat names.txt | tr 'a-z' 'A-Z'",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "ps",
+    "command": "ps",
+    "short_desc": "Show a snapshot of currently running processes",
+    "scenario": "You want to see all processes currently running on the system and their process IDs",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-a", "desc": "Show processes for all users" },
+      { "flag": "-u", "desc": "Show the user who owns each process" },
+      { "flag": "-x", "desc": "Include processes not attached to a terminal" }
+    ],
+    "example": "ps aux",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "top",
+    "command": "top",
+    "short_desc": "Show a live updating view of running processes and resource usage",
+    "scenario": "Your system feels slow and you want to see what is consuming the most CPU in real time",
+    "category": "processes",
+    "common_flags": [],
+    "example": "top",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "htop",
+    "command": "htop",
+    "short_desc": "An improved interactive process viewer with a cleaner interface than top",
+    "scenario": "You want a more readable and navigable version of top with colour coding",
+    "category": "processes",
+    "common_flags": [],
+    "example": "htop",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "kill",
+    "command": "kill",
+    "short_desc": "Terminate a process by its process ID",
+    "scenario": "A process has frozen and you want to force it to stop using its PID",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-9", "desc": "Force kill immediately, cannot be ignored by the process" }
+    ],
+    "example": "kill -9 3847",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "killall",
+    "command": "killall",
+    "short_desc": "Terminate all processes matching a given name",
+    "scenario": "You want to stop all running instances of nginx without looking up individual PIDs",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-9", "desc": "Force kill all matching processes immediately" }
+    ],
+    "example": "killall nginx",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "jobs",
+    "command": "jobs",
+    "short_desc": "List processes currently running in the background of your terminal session",
+    "scenario": "You have sent a few processes to the background and want to see what is running",
+    "category": "processes",
+    "common_flags": [],
+    "example": "jobs",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "bg",
+    "command": "bg",
+    "short_desc": "Resume a suspended process and run it in the background",
+    "scenario": "You paused a running process with Ctrl+Z and now want it to continue running in the background",
+    "category": "processes",
+    "common_flags": [],
+    "example": "bg %1",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "fg",
+    "command": "fg",
+    "short_desc": "Bring a background process back to the foreground",
+    "scenario": "You have a process running in the background and want to interact with it again",
+    "category": "processes",
+    "common_flags": [],
+    "example": "fg %1",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "df",
+    "command": "df",
+    "short_desc": "Show available and used disk space on mounted filesystems",
+    "scenario": "You want to check how much disk space is left on your server before a large file transfer",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-h", "desc": "Show sizes in human readable format like GB and MB" }
+    ],
+    "example": "df -h",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "du",
+    "command": "du",
+    "short_desc": "Show how much disk space a file or directory is using",
+    "scenario": "You want to find out which folders in your home directory are taking up the most space",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-s", "desc": "Show a summary total rather than every subdirectory" },
+      { "flag": "-h", "desc": "Show sizes in human readable format" }
+    ],
+    "example": "du -sh *",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "free",
+    "command": "free",
+    "short_desc": "Show total, used and available memory on the system",
+    "scenario": "You want to check how much RAM is currently being used on a server",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-h", "desc": "Show sizes in human readable format" }
+    ],
+    "example": "free -h",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "uname",
+    "command": "uname",
+    "short_desc": "Print system information including kernel and architecture",
+    "scenario": "You want to confirm what operating system and kernel version a server is running",
+    "category": "processes",
+    "common_flags": [
+      { "flag": "-a", "desc": "Show all available system information" }
+    ],
+    "example": "uname -a",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "uptime",
+    "command": "uptime",
+    "short_desc": "Show how long the system has been running and current load",
+    "scenario": "You want to check whether a server was recently rebooted and what the current load average is",
+    "category": "processes",
+    "common_flags": [],
+    "example": "uptime",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "whoami",
+    "command": "whoami",
+    "short_desc": "Print the username of the currently logged in user",
+    "scenario": "You are on an unfamiliar server and want to confirm which user account you are logged in as",
+    "category": "processes",
+    "common_flags": [],
+    "example": "whoami",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "ping",
+    "command": "ping",
+    "short_desc": "Test network connectivity to a host",
+    "scenario": "You want to check whether a remote server is reachable from your machine",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "-c", "desc": "Specify how many packets to send before stopping" }
+    ],
+    "example": "ping -c 4 google.com",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "curl",
+    "command": "curl",
+    "short_desc": "Transfer data to or from a URL",
+    "scenario": "You want to test whether an API endpoint is responding and see its output",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "-X", "desc": "Specify the HTTP method, GET POST etc" },
+      { "flag": "-H", "desc": "Add a header to the request" },
+      { "flag": "-d", "desc": "Send data in the request body" },
+      { "flag": "-o", "desc": "Write output to a file instead of the terminal" }
+    ],
+    "example": "curl -X GET https://api.example.com/status",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "wget",
+    "command": "wget",
+    "short_desc": "Download a file from a URL",
+    "scenario": "You want to download an installation script from the internet to your server",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "-O", "desc": "Save the download with a specific filename" },
+      { "flag": "-q", "desc": "Run quietly without showing progress output" }
+    ],
+    "example": "wget -O setup.sh https://example.com/setup.sh",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "ssh",
+    "command": "ssh",
+    "short_desc": "Connect securely to a remote machine over the network",
+    "scenario": "You want to log into a remote server to run commands on it",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "-i", "desc": "Specify a private key file for authentication" },
+      { "flag": "-p", "desc": "Connect on a non-default port" }
+    ],
+    "example": "ssh user@192.168.1.10",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "scp",
+    "command": "scp",
+    "short_desc": "Securely copy files between machines over SSH",
+    "scenario": "You want to copy a config file from your local machine to a remote server",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "-r", "desc": "Copy an entire directory recursively" },
+      { "flag": "-i", "desc": "Specify a private key file for authentication" }
+    ],
+    "example": "scp config.yml user@192.168.1.10:/etc/myapp/",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "ss",
+    "command": "ss",
+    "short_desc": "Show active network connections and listening ports",
+    "scenario": "You want to check which ports are currently open and listening on your machine",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "-t", "desc": "Show TCP connections only" },
+      { "flag": "-l", "desc": "Show only listening sockets" },
+      { "flag": "-n", "desc": "Show numeric addresses instead of resolving hostnames" }
+    ],
+    "example": "ss -tln",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "ip",
+    "command": "ip",
+    "short_desc": "Show or manage network interfaces and routing",
+    "scenario": "You want to find the IP address assigned to your machine",
+    "category": "networking",
+    "common_flags": [
+      { "flag": "a", "desc": "Show all network interfaces and their addresses" }
+    ],
+    "example": "ip a",
+    "difficulty": "beginner"
+  }
+]

@@ -164,3 +164,87 @@ h1 {
 .back-btn:hover {
   color: #f0f0f0;
 }
+
+/* Retire prompt */
+.retire-prompt {
+  margin-top: 1rem;
+  background-color: #0d1117;
+  border: 1px solid #febc2e;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+}
+
+.retire-prompt p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  color: #f0f0f0;
+}
+
+.highlight {
+  color: #28c840;
+  font-weight: bold;
+}
+
+.retire-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.retire-btn {
+  background-color: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #f0f0f0;
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.retire-btn.yes:hover  { border-color: #28c840; }
+.retire-btn.no:hover   { border-color: #ff5f57; }
+
+.key-hint {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* Drill footer */
+.drill-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.restore-btn {
+  background: transparent;
+  border: none;
+  color: #febc2e;
+  font-family: monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.restore-btn:hover {
+  color: #f0f0f0;
+}
+
+.nailed {
+  color: #28c840;
+  font-size: 0.8rem;
+}
+
+.completed-screen {
+  text-align: center;
+}
+
+.completed-screen .retire-actions {
+  justify-content: center;
+}

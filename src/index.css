@@ -323,3 +323,16 @@ h1 {
   opacity: 0.4;
   cursor: default;
 }
+
+.passkey-screen {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.passkey-screen .terminal {
+  width: 100%;
+  max-width: 500px;
+}

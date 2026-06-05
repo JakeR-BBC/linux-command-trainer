@@ -476,3 +476,22 @@ h1 {
   line-height: 1.5;
 }
 
+.drill-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.skip-btn {
+  display: inline-block;
+  color: #888;
+  font-family: monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.skip-btn:hover {
+  color: #f0f0f0;
+}

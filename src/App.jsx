@@ -7,6 +7,7 @@ import commands from './commands.json'
 import RecognitionCard from './components/RecognitionCard'
 import NavRail from './components/NavRail'
 import MacBadge from './components/MacBadge'
+import ChallengeCard from './components/ChallengeCard'
 import {
   incrementCorrect,
   retireCommand,
@@ -33,8 +34,13 @@ function DrillScreen() {
     const base = isAll
       ? commands
       : commands.filter(c => c.category === selected)
-    if (isAll) return base
-    return base.filter(cmd => !isRetired(cmd.id, selected))
+
+    const withChallenges = (mode === 'realism' || mode === 'mastery')
+      ? base.filter(cmd => cmd.challenges?.some(ch => ch.mode === mode))
+      : base
+
+    if (isAll) return withChallenges
+    return withChallenges.filter(cmd => !isRetired(cmd.id, selected))
   }
 
   const [command, setCommand] = useState(() => {
@@ -121,6 +127,13 @@ function DrillScreen() {
     setRetirePrompt(false)
   }
 
+  function handleSkip() {
+    setCommand(nextCommand(command.id))
+    setFeedback(null)
+    setRetirePrompt(false)
+    setShowMacPopup(false)
+  }
+
   if (!command) {
     return (
       <div className="completed-screen">
@@ -143,10 +156,20 @@ function DrillScreen() {
   return (
     <div>
       <h1>Linux Command Trainer</h1>
-      <p className="prompt">{mode === 'scenario' ? command.scenario : command.short_desc}</p>
+      <p className="prompt">
+        {mode === 'scenario' ? command.scenario
+          : mode === 'realism' || mode === 'mastery' ? command.challenges?.find(c => c.mode === mode)?.prompt
+            : command.short_desc}
+      </p>
+      <MacBadge command={command} show={showMacPopup} onDismiss={() => setShowMacPopup(false)} />
       {mode === 'recognition'
         ? <RecognitionCard command={command} pool={getActivePool()} onSubmit={handleSubmit} />
-        : <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
+        : mode === 'realism' || mode === 'mastery'
+          ? <ChallengeCard
+            challenge={command.challenges?.find(c => c.mode === mode)}
+            onSubmit={handleSubmit}
+          />
+          : <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
       }
       {feedback && !retirePrompt && (
         <p className={`feedback ${feedback}`}>
@@ -175,20 +198,20 @@ function DrillScreen() {
           </div>
         </div>
       )}
-      <MacBadge
-        command={command}
-        show={showMacPopup}
-        onDismiss={() => setShowMacPopup(false)}
-      />
       <div className="drill-footer">
         {!isAll && retiredCount > 0 && (
           <button className="restore-btn" onClick={handleRestore}>
             Restore retired commands ({retiredCount})
           </button>
         )}
-        <span className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
-          ← Back to categories
-        </span>
+        <div className="drill-footer-nav">
+          <span className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
+            ← Back to categories
+          </span>
+          <span className="skip-btn" onClick={handleSkip}>
+            Skip question →
+          </span>
+        </div>
       </div>
     </div>
   )

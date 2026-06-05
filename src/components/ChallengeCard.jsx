@@ -1,34 +1,20 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 
-function DrillCard({ command, onSubmit, disabled }) {
+function ChallengeCard({ challenge, onSubmit }) {
   const [input, setInput] = useState('')
-  const inputRef = useRef(null)
-
-  useEffect(() => {
-    if (!disabled && inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [disabled, command])
 
   function handleSubmit() {
-    if (!input.trim() || disabled) return
+    if (!input.trim()) return
     const trimmed = input.trim().toLowerCase()
-    const correct = command.command.toLowerCase()
-    const isCorrect = trimmed === correct
+    const isCorrect = challenge.valid_answers.some(
+      answer => answer.toLowerCase() === trimmed
+    )
     onSubmit(isCorrect)
     setInput('')
   }
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') handleSubmit()
-  }
-
-  function handleKeyDown(e) {
-    if (e.key === 'Enter') handleSubmit()
-    if (e.key === 'Tab') {
-      e.preventDefault()
-      // bubble up to parent
-    }
   }
 
   return (
@@ -41,22 +27,21 @@ function DrillCard({ command, onSubmit, disabled }) {
       <div className="terminal-body">
         <span className="terminal-prompt">user@linux:~$</span>
         <input
-          ref={inputRef}
           className="terminal-input"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={disabled ? '' : 'type a command...'}
+          placeholder="type full command..."
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck="false"
-          disabled={disabled}
+          autoFocus
         />
       </div>
     </div>
   )
 }
 
-export default DrillCard
+export default ChallengeCard

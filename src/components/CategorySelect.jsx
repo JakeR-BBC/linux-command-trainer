@@ -9,14 +9,18 @@ function CategorySelect() {
   const categories = [...new Set(commands.map(c => c.category))]
 
   function getCount(category) {
-    return commands.filter(c => c.category === category).length
+    const base = commands.filter(c => c.category === category)
+    if (mode === 'realism' || mode === 'mastery') {
+      return base.filter(cmd => cmd.challenges?.some(ch => ch.mode === mode)).length
+    }
+    return base.length
   }
 
   function capitalise(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
-return (
+  return (
     <div className="category-select">
       <h1>Linux Command Trainer</h1>
       <p className="subtitle">Pick a category to drill</p>
@@ -45,12 +49,16 @@ return (
           onClick={() => navigate(`/drill?mode=${mode}&category=all`)}
         >
           All Commands
-          <span className="count">({commands.length})</span>
+          <span className="count">({
+            mode === 'realism' || mode === 'mastery'
+              ? commands.filter(cmd => cmd.challenges?.some(ch => ch.mode === mode)).length
+              : commands.length
+          })</span>
         </button>
       </div>
       <div className="drill-footer">
         <span className="back-btn" onClick={() => navigate('/')}>
-        ← Back to modes
+          ← Back to modes
         </span>
       </div>
     </div>

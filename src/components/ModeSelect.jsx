@@ -18,6 +18,18 @@ const modes = [
     name: 'Scenario',
     desc: 'Given a real world situation, identify the right command to use',
     icon: '🧠'
+  },
+  {
+    id: 'realism',
+    name: 'Realism',
+    desc: 'Type the full command including flags and arguments for a practical situation',
+    icon: '⚡'
+  },
+  {
+    id: 'mastery',
+    name: 'Mastery',
+    desc: 'Expert level challenges requiring precise commands in complex situations',
+    icon: '🎯'
   }
 ]
 

@@ -2,6 +2,11 @@
 
 A browser-based tool for learning and drilling Linux commands — no terminal access required.
 
+## A note on macOS
+These commands are taught for use on Linux systems — remote servers, 
+containers, and cloud instances. Most work identically on macOS, 
+which shares Unix roots with Linux.
+
 ## Features
 - Three drill modes: Recognition, Recall, and Scenario
 - Six command categories: Navigation, Files, Permissions, Search, Processes, Networking

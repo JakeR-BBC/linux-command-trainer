@@ -2,599 +2,1632 @@
   {
     "id": "pwd",
     "command": "pwd",
+    "mac_compatible": true,
     "short_desc": "Print the current working directory",
     "scenario": "You've lost track of where you are in the file system and need to confirm your current location",
     "category": "navigation",
     "common_flags": [],
     "example": "pwd",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Print your current location in the file system",
+        "valid_answers": [
+          "pwd"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "ls",
     "command": "ls",
+    "mac_compatible": true,
     "short_desc": "List the contents of a directory",
     "scenario": "You want to see all the files and folders in your current directory",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-l", "desc": "Show detailed list with permissions and sizes" },
-      { "flag": "-a", "desc": "Show hidden files" },
-      { "flag": "-h", "desc": "Show file sizes in human readable format" }
+      {
+        "flag": "-l",
+        "desc": "Show detailed list with permissions and sizes"
+      },
+      {
+        "flag": "-a",
+        "desc": "Show hidden files"
+      },
+      {
+        "flag": "-h",
+        "desc": "Show file sizes in human readable format"
+      }
     ],
     "example": "ls -lah",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "List all files in the current directory",
+        "valid_answers": [
+          "ls"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "List all files including hidden ones with full details and human readable sizes",
+        "valid_answers": [
+          "ls -lah",
+          "ls -la -h",
+          "ls -alh",
+          "ls -ahl"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "cd",
     "command": "cd",
+    "mac_compatible": true,
     "short_desc": "Change the current directory",
     "scenario": "You want to navigate into a folder called projects",
     "category": "navigation",
     "common_flags": [],
     "example": "cd ~/projects",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Navigate to your home directory",
+        "valid_answers": [
+          "cd ~",
+          "cd $HOME",
+          "cd"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Navigate to the previous directory you were in",
+        "valid_answers": [
+          "cd -"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "cp",
     "command": "cp",
+    "mac_compatible": true,
     "short_desc": "Copy a file or directory",
     "scenario": "You want to make a backup copy of a config file before editing it",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-r", "desc": "Copy directories recursively" },
-      { "flag": "-i", "desc": "Prompt before overwriting" }
+      {
+        "flag": "-r",
+        "desc": "Copy directories recursively"
+      },
+      {
+        "flag": "-i",
+        "desc": "Prompt before overwriting"
+      }
     ],
     "example": "cp config.yml config.yml.bak",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Copy a file called notes.txt to a folder called backup",
+        "valid_answers": [
+          "cp notes.txt backup",
+          "cp notes.txt backup/"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Copy a folder called projects and all its contents to a folder called projects_backup",
+        "valid_answers": [
+          "cp -r projects projects_backup",
+          "cp -R projects projects_backup"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "mv",
     "command": "mv",
+    "mac_compatible": true,
     "short_desc": "Move or rename a file or directory",
     "scenario": "You want to rename a file called old-name.txt to new-name.txt",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-i", "desc": "Prompt before overwriting" }
+      {
+        "flag": "-i",
+        "desc": "Prompt before overwriting"
+      }
     ],
     "example": "mv old-name.txt new-name.txt",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Rename a file called draft.txt to final.txt",
+        "valid_answers": [
+          "mv draft.txt final.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Move a folder called reports into a folder called archive without being prompted if something already exists there",
+        "valid_answers": [
+          "mv -f reports archive",
+          "mv -f reports archive/"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "rm",
     "command": "rm",
+    "mac_compatible": true,
     "short_desc": "Remove a file or directory",
     "scenario": "You want to delete a temporary file you no longer need",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-r", "desc": "Remove directories recursively" },
-      { "flag": "-f", "desc": "Force removal without prompting" }
+      {
+        "flag": "-r",
+        "desc": "Remove directories recursively"
+      },
+      {
+        "flag": "-f",
+        "desc": "Force removal without prompting"
+      }
     ],
     "example": "rm temp.txt",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Delete a file called temp.txt",
+        "valid_answers": [
+          "rm temp.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Delete a directory called tmp and everything inside it without being prompted",
+        "valid_answers": [
+          "rm -rf tmp",
+          "rm -fr tmp"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "mkdir",
     "command": "mkdir",
+    "mac_compatible": true,
     "short_desc": "Create a new directory",
     "scenario": "You want to create a new folder called reports in your current location",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-p", "desc": "Create parent directories as needed" }
+      {
+        "flag": "-p",
+        "desc": "Create parent directories as needed"
+      }
     ],
     "example": "mkdir -p projects/reports",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Create a new folder called documents",
+        "valid_answers": [
+          "mkdir documents"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Create a nested directory structure of projects/2024/reports in one command",
+        "valid_answers": [
+          "mkdir -p projects/2024/reports"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "touch",
     "command": "touch",
+    "mac_compatible": true,
     "short_desc": "Create an empty file or update a file's timestamp",
     "scenario": "You want to quickly create a new empty file called notes.txt",
     "category": "navigation",
     "common_flags": [],
     "example": "touch notes.txt",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Create a new empty file called notes.txt",
+        "valid_answers": [
+          "touch notes.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Create three empty files called a.txt b.txt and c.txt in one command",
+        "valid_answers": [
+          "touch a.txt b.txt c.txt"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "find",
     "command": "find",
+    "mac_compatible": true,
     "short_desc": "Search for files and directories",
     "scenario": "You want to locate all .log files anywhere under your current directory",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-name", "desc": "Search by filename or pattern" },
-      { "flag": "-type", "desc": "Filter by type, f for file, d for directory" }
+      {
+        "flag": "-name",
+        "desc": "Search by filename or pattern"
+      },
+      {
+        "flag": "-type",
+        "desc": "Filter by type, f for file, d for directory"
+      }
     ],
     "example": "find . -name '*.log'",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Find all files with the .txt extension in the current directory",
+        "valid_answers": [
+          "find . -name '*.txt'",
+          "find . -name \"*.txt\""
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Find all .log files anywhere under the current directory and show only files not directories",
+        "valid_answers": [
+          "find . -type f -name '*.log'",
+          "find . -type f -name \"*.log\""
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "locate",
     "command": "locate",
+    "mac_compatible": true,
     "short_desc": "Quickly find files by name using a pre-built index",
     "scenario": "You want to find a file called nginx.conf anywhere on the system without waiting for a full search",
     "category": "navigation",
     "common_flags": [
-      { "flag": "-i", "desc": "Case-insensitive search" }
+      {
+        "flag": "-i",
+        "desc": "Case-insensitive search"
+      }
     ],
     "example": "locate nginx.conf",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Search for a file called nginx.conf on the system",
+        "valid_answers": [
+          "locate nginx.conf"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Search for a file called nginx.conf without caring about upper or lower case",
+        "valid_answers": [
+          "locate -i nginx.conf"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "cat",
     "command": "cat",
+    "mac_compatible": true,
     "short_desc": "Print the contents of a file to the terminal",
     "scenario": "You want to quickly read the contents of a small config file",
     "category": "files",
     "common_flags": [
-      { "flag": "-n", "desc": "Show line numbers" }
+      {
+        "flag": "-n",
+        "desc": "Show line numbers"
+      }
     ],
     "example": "cat config.yml",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Print the contents of a file called config.yml to the terminal",
+        "valid_answers": [
+          "cat config.yml"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Print the contents of config.yml with line numbers",
+        "valid_answers": [
+          "cat -n config.yml"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "less",
     "command": "less",
+    "mac_compatible": true,
     "short_desc": "View file contents one page at a time",
     "scenario": "You want to read a large log file without flooding your terminal",
     "category": "files",
     "common_flags": [
-      { "flag": "-N", "desc": "Show line numbers" }
+      {
+        "flag": "-N",
+        "desc": "Show line numbers"
+      }
     ],
     "example": "less /var/log/syslog",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Open a large file called server.log for comfortable reading",
+        "valid_answers": [
+          "less server.log"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Open server.log for reading with line numbers visible",
+        "valid_answers": [
+          "less -N server.log"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "head",
     "command": "head",
+    "mac_compatible": true,
     "short_desc": "Show the first lines of a file",
     "scenario": "You want to quickly check the top 10 lines of a log file",
     "category": "files",
     "common_flags": [
-      { "flag": "-n", "desc": "Specify how many lines to show" }
+      {
+        "flag": "-n",
+        "desc": "Specify how many lines to show"
+      }
     ],
     "example": "head -n 10 server.log",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Show the first 10 lines of a file called server.log",
+        "valid_answers": [
+          "head server.log",
+          "head -n 10 server.log"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Show the first 25 lines of a file called server.log",
+        "valid_answers": [
+          "head -n 25 server.log"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "tail",
     "command": "tail",
+    "mac_compatible": true,
     "short_desc": "Show the last lines of a file",
     "scenario": "You want to watch a log file update in real time as events come in",
     "category": "files",
     "common_flags": [
-      { "flag": "-n", "desc": "Specify how many lines to show" },
-      { "flag": "-f", "desc": "Follow the file and show new lines as they are added" }
+      {
+        "flag": "-n",
+        "desc": "Specify how many lines to show"
+      },
+      {
+        "flag": "-f",
+        "desc": "Follow the file and show new lines as they are added"
+      }
     ],
     "example": "tail -f server.log",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Show the last 10 lines of a file called server.log",
+        "valid_answers": [
+          "tail server.log",
+          "tail -n 10 server.log"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Watch a file called server.log and print new lines as they are added",
+        "valid_answers": [
+          "tail -f server.log"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "nano",
     "command": "nano",
+    "mac_compatible": true,
     "short_desc": "Open a simple terminal text editor",
     "scenario": "You need to make a quick edit to a config file directly in the terminal",
     "category": "files",
     "common_flags": [],
     "example": "nano config.yml",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Open a file called config.yml in a simple terminal text editor",
+        "valid_answers": [
+          "nano config.yml"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "vim",
     "command": "vim",
+    "mac_compatible": true,
     "short_desc": "Open a powerful but more complex terminal text editor",
     "scenario": "You need to edit a file on a remote server where no other editor is available",
     "category": "files",
     "common_flags": [],
     "example": "vim config.yml",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Open a file called config.yml in vim",
+        "valid_answers": [
+          "vim config.yml"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Open a file called config.yml in vim and jump straight to line 42",
+        "valid_answers": [
+          "vim +42 config.yml",
+          "vim -c '42' config.yml"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "diff",
     "command": "diff",
+    "mac_compatible": true,
     "short_desc": "Compare two files line by line and show differences",
     "scenario": "You want to see what changed between your original config and an updated version",
     "category": "files",
     "common_flags": [
-      { "flag": "-u", "desc": "Show differences in unified format, easier to read" }
+      {
+        "flag": "-u",
+        "desc": "Show differences in unified format, easier to read"
+      }
     ],
     "example": "diff config.yml config.yml.bak",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Compare two files called original.yml and updated.yml",
+        "valid_answers": [
+          "diff original.yml updated.yml"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Compare original.yml and updated.yml in a format that clearly shows added and removed lines",
+        "valid_answers": [
+          "diff -u original.yml updated.yml"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "chmod",
     "command": "chmod",
+    "mac_compatible": true,
     "short_desc": "Change the permissions of a file or directory",
     "scenario": "You want to make a shell script executable so you can run it",
     "category": "permissions",
     "common_flags": [
-      { "flag": "-R", "desc": "Apply changes recursively to a directory" }
+      {
+        "flag": "-R",
+        "desc": "Apply changes recursively to a directory"
+      }
     ],
     "example": "chmod +x deploy.sh",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Make a file called deploy.sh executable",
+        "valid_answers": [
+          "chmod +x deploy.sh",
+          "chmod a+x deploy.sh"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Make a file called report.txt read-only for everyone",
+        "valid_answers": [
+          "chmod 444 report.txt",
+          "chmod a-w report.txt",
+          "chmod 0444 report.txt"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "chown",
     "command": "chown",
+    "mac_compatible": true,
     "short_desc": "Change the owner of a file or directory",
     "scenario": "You want to transfer ownership of a folder to a different user",
     "category": "permissions",
     "common_flags": [
-      { "flag": "-R", "desc": "Apply changes recursively to a directory" }
+      {
+        "flag": "-R",
+        "desc": "Apply changes recursively to a directory"
+      }
     ],
     "example": "chown john:john /home/john/projects",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Change the owner of a file called app.conf to a user called deploy",
+        "valid_answers": [
+          "chown deploy app.conf"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Recursively change the owner and group of a folder called /var/www to a user called www-data",
+        "valid_answers": [
+          "chown -R www-data:www-data /var/www"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "sudo",
     "command": "sudo",
+    "mac_compatible": true,
     "short_desc": "Run a command with superuser privileges",
     "scenario": "You need to install a package but get a permissions error as a regular user",
     "category": "permissions",
     "common_flags": [],
     "example": "sudo apt install nginx",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Install a package called nginx using apt as a superuser",
+        "valid_answers": [
+          "sudo apt install nginx"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Edit a system file called /etc/hosts using nano with superuser privileges",
+        "valid_answers": [
+          "sudo nano /etc/hosts"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "su",
     "command": "su",
+    "mac_compatible": true,
     "short_desc": "Switch to another user account in the terminal",
     "scenario": "You need to perform several actions as a different user without using sudo each time",
     "category": "permissions",
     "common_flags": [
-      { "flag": "-", "desc": "Switch and load the target user's full environment" }
+      {
+        "flag": "-",
+        "desc": "Switch and load the target user's full environment"
+      }
     ],
     "example": "su - deploy",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Switch to a user called deploy",
+        "valid_answers": [
+          "su deploy",
+          "su - deploy"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Switch to a user called deploy and load their full environment",
+        "valid_answers": [
+          "su - deploy"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "grep",
     "command": "grep",
+    "mac_compatible": true,
     "short_desc": "Search for a pattern in text or files",
     "scenario": "You want to find every line containing the word error in a log file",
     "category": "search",
     "common_flags": [
-      { "flag": "-r", "desc": "Search recursively through directories" },
-      { "flag": "-i", "desc": "Case-insensitive search" },
-      { "flag": "-n", "desc": "Show line numbers alongside matches" }
+      {
+        "flag": "-r",
+        "desc": "Search recursively through directories"
+      },
+      {
+        "flag": "-i",
+        "desc": "Case-insensitive search"
+      },
+      {
+        "flag": "-n",
+        "desc": "Show line numbers alongside matches"
+      }
     ],
     "example": "grep -rn 'error' ./logs/",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Search for the word error in a file called server.log",
+        "valid_answers": [
+          "grep error server.log",
+          "grep 'error' server.log",
+          "grep \"error\" server.log"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Recursively search for the word error in all files under the current directory and show line numbers",
+        "valid_answers": [
+          "grep -rn error .",
+          "grep -rn 'error' .",
+          "grep -nr error .",
+          "grep -nr 'error' ."
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "awk",
     "command": "awk",
+    "mac_compatible": true,
     "short_desc": "Process and extract columns from structured text",
     "scenario": "You have a CSV file and want to print only the first and third columns",
     "category": "search",
     "common_flags": [
-      { "flag": "-F", "desc": "Set the field separator character" }
+      {
+        "flag": "-F",
+        "desc": "Set the field separator character"
+      }
     ],
     "example": "awk -F',' '{print $1, $3}' data.csv",
-    "difficulty": "advanced"
+    "difficulty": "advanced",
+    "challenges": [
+      {
+        "prompt": "Print the first column of a file called data.txt",
+        "valid_answers": [
+          "awk '{print $1}' data.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Print the first and third columns of a comma separated file called data.csv",
+        "valid_answers": [
+          "awk -F',' '{print $1, $3}' data.csv",
+          "awk -F, '{print $1, $3}' data.csv"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "sed",
     "command": "sed",
+    "mac_compatible": true,
     "short_desc": "Find and replace text in a file or stream",
     "scenario": "You want to replace every occurrence of localhost with a production URL in a config file",
     "category": "search",
     "common_flags": [
-      { "flag": "-i", "desc": "Edit the file in place rather than printing to terminal" },
-      { "flag": "-e", "desc": "Pass multiple expressions in one command" }
+      {
+        "flag": "-i",
+        "desc": "Edit the file in place rather than printing to terminal"
+      },
+      {
+        "flag": "-e",
+        "desc": "Pass multiple expressions in one command"
+      }
     ],
     "example": "sed -i 's/localhost/prod.example.com/g' config.yml",
-    "difficulty": "advanced"
+    "difficulty": "advanced",
+    "challenges": [
+      {
+        "prompt": "Replace the first occurrence of the word foo with bar in a file called config.txt and print the result",
+        "valid_answers": [
+          "sed 's/foo/bar/' config.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Replace every occurrence of localhost with prod.example.com directly in a file called config.yml",
+        "valid_answers": [
+          "sed -i 's/localhost/prod.example.com/g' config.yml"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "sort",
     "command": "sort",
+    "mac_compatible": true,
     "short_desc": "Sort lines of text alphabetically or numerically",
     "scenario": "You have a list of names in a file and want them sorted alphabetically",
     "category": "search",
     "common_flags": [
-      { "flag": "-r", "desc": "Sort in reverse order" },
-      { "flag": "-n", "desc": "Sort numerically rather than alphabetically" }
+      {
+        "flag": "-r",
+        "desc": "Sort in reverse order"
+      },
+      {
+        "flag": "-n",
+        "desc": "Sort numerically rather than alphabetically"
+      }
     ],
     "example": "sort names.txt",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Sort the lines of a file called names.txt alphabetically",
+        "valid_answers": [
+          "sort names.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Sort the lines of a file called scores.txt numerically in reverse order",
+        "valid_answers": [
+          "sort -rn scores.txt",
+          "sort -nr scores.txt"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "uniq",
     "command": "uniq",
+    "mac_compatible": true,
     "short_desc": "Remove duplicate consecutive lines from output",
     "scenario": "You have a sorted log file and want to collapse repeated identical lines into one",
     "category": "search",
     "common_flags": [
-      { "flag": "-c", "desc": "Show a count of how many times each line appeared" }
+      {
+        "flag": "-c",
+        "desc": "Show a count of how many times each line appeared"
+      }
     ],
     "example": "sort server.log | uniq -c",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Remove duplicate lines from a sorted file called results.txt",
+        "valid_answers": [
+          "uniq results.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Show each unique line in server.log along with how many times it appears",
+        "valid_answers": [
+          "sort server.log | uniq -c"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "wc",
     "command": "wc",
+    "mac_compatible": true,
     "short_desc": "Count lines, words, or characters in a file",
     "scenario": "You want to know how many lines are in a log file",
     "category": "search",
     "common_flags": [
-      { "flag": "-l", "desc": "Count lines only" },
-      { "flag": "-w", "desc": "Count words only" },
-      { "flag": "-c", "desc": "Count characters only" }
+      {
+        "flag": "-l",
+        "desc": "Count lines only"
+      },
+      {
+        "flag": "-w",
+        "desc": "Count words only"
+      },
+      {
+        "flag": "-c",
+        "desc": "Count characters only"
+      }
     ],
     "example": "wc -l server.log",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Count the number of lines in a file called server.log",
+        "valid_answers": [
+          "wc -l server.log"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Count the total number of words across all .txt files in the current directory",
+        "valid_answers": [
+          "wc -w *.txt"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "cut",
     "command": "cut",
+    "mac_compatible": true,
     "short_desc": "Extract specific columns or fields from text",
     "scenario": "You want to extract just the username column from a colon-separated file",
     "category": "search",
     "common_flags": [
-      { "flag": "-d", "desc": "Set the delimiter character" },
-      { "flag": "-f", "desc": "Specify which field number to extract" }
+      {
+        "flag": "-d",
+        "desc": "Set the delimiter character"
+      },
+      {
+        "flag": "-f",
+        "desc": "Specify which field number to extract"
+      }
     ],
     "example": "cut -d':' -f1 /etc/passwd",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Extract the first field from a colon separated file called data.txt",
+        "valid_answers": [
+          "cut -d':' -f1 data.txt",
+          "cut -d : -f1 data.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Extract the first and third fields from a comma separated file called report.csv",
+        "valid_answers": [
+          "cut -d',' -f1,3 report.csv",
+          "cut -d , -f1,3 report.csv"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "tr",
     "command": "tr",
+    "mac_compatible": true,
     "short_desc": "Translate or delete characters in text",
     "scenario": "You want to convert all lowercase letters in a file to uppercase",
     "category": "search",
     "common_flags": [
-      { "flag": "-d", "desc": "Delete specified characters rather than replacing them" }
+      {
+        "flag": "-d",
+        "desc": "Delete specified characters rather than replacing them"
+      }
     ],
     "example": "cat names.txt | tr 'a-z' 'A-Z'",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Convert all lowercase letters to uppercase from a file called names.txt",
+        "valid_answers": [
+          "cat names.txt | tr 'a-z' 'A-Z'",
+          "tr 'a-z' 'A-Z' < names.txt"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Remove all punctuation characters from the output of a file called notes.txt",
+        "valid_answers": [
+          "cat notes.txt | tr -d '[:punct:]'",
+          "tr -d '[:punct:]' < notes.txt"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "ps",
     "command": "ps",
+    "mac_compatible": true,
     "short_desc": "Show a snapshot of currently running processes",
     "scenario": "You want to see all processes currently running on the system and their process IDs",
     "category": "processes",
     "common_flags": [
-      { "flag": "-a", "desc": "Show processes for all users" },
-      { "flag": "-u", "desc": "Show the user who owns each process" },
-      { "flag": "-x", "desc": "Include processes not attached to a terminal" }
+      {
+        "flag": "-a",
+        "desc": "Show processes for all users"
+      },
+      {
+        "flag": "-u",
+        "desc": "Show the user who owns each process"
+      },
+      {
+        "flag": "-x",
+        "desc": "Include processes not attached to a terminal"
+      }
     ],
     "example": "ps aux",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Show all currently running processes on the system",
+        "valid_answers": [
+          "ps aux",
+          "ps -aux"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Show all running processes and filter for ones related to nginx",
+        "valid_answers": [
+          "ps aux | grep nginx",
+          "ps -aux | grep nginx"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "top",
     "command": "top",
+    "mac_compatible": true,
     "short_desc": "Show a live updating view of running processes and resource usage",
     "scenario": "Your system feels slow and you want to see what is consuming the most CPU in real time",
     "category": "processes",
     "common_flags": [],
     "example": "top",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Open an interactive live view of system processes and resource usage",
+        "valid_answers": [
+          "top"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "htop",
     "command": "htop",
+    "mac_compatible": false,
     "short_desc": "An improved interactive process viewer with a cleaner interface than top",
     "scenario": "You want a more readable and navigable version of top with colour coding",
     "category": "processes",
     "common_flags": [],
     "example": "htop",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Open an improved interactive process viewer",
+        "valid_answers": [
+          "htop"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "kill",
     "command": "kill",
+    "mac_compatible": true,
     "short_desc": "Terminate a process by its process ID",
     "scenario": "A process has frozen and you want to force it to stop using its PID",
     "category": "processes",
     "common_flags": [
-      { "flag": "-9", "desc": "Force kill immediately, cannot be ignored by the process" }
+      {
+        "flag": "-9",
+        "desc": "Force kill immediately, cannot be ignored by the process"
+      }
     ],
     "example": "kill -9 3847",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Terminate a process with the ID 3847",
+        "valid_answers": [
+          "kill 3847"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Force kill a process with the ID 3847 immediately",
+        "valid_answers": [
+          "kill -9 3847",
+          "kill -SIGKILL 3847"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "killall",
     "command": "killall",
+    "mac_compatible": true,
     "short_desc": "Terminate all processes matching a given name",
     "scenario": "You want to stop all running instances of nginx without looking up individual PIDs",
     "category": "processes",
     "common_flags": [
-      { "flag": "-9", "desc": "Force kill all matching processes immediately" }
+      {
+        "flag": "-9",
+        "desc": "Force kill all matching processes immediately"
+      }
     ],
     "example": "killall nginx",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Stop all running instances of a process called nginx",
+        "valid_answers": [
+          "killall nginx"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Force kill all running instances of a process called nginx immediately",
+        "valid_answers": [
+          "killall -9 nginx",
+          "killall -SIGKILL nginx"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "jobs",
     "command": "jobs",
+    "mac_compatible": true,
     "short_desc": "List processes currently running in the background of your terminal session",
     "scenario": "You have sent a few processes to the background and want to see what is running",
     "category": "processes",
     "common_flags": [],
     "example": "jobs",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "List all processes currently running in the background of your terminal session",
+        "valid_answers": [
+          "jobs"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "bg",
     "command": "bg",
+    "mac_compatible": true,
     "short_desc": "Resume a suspended process and run it in the background",
     "scenario": "You paused a running process with Ctrl+Z and now want it to continue running in the background",
     "category": "processes",
     "common_flags": [],
     "example": "bg %1",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Resume the most recently suspended process in the background",
+        "valid_answers": [
+          "bg",
+          "bg %1"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Resume the second suspended job in the background",
+        "valid_answers": [
+          "bg %2"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "fg",
     "command": "fg",
+    "mac_compatible": true,
     "short_desc": "Bring a background process back to the foreground",
     "scenario": "You have a process running in the background and want to interact with it again",
     "category": "processes",
     "common_flags": [],
     "example": "fg %1",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Bring the most recent background process back to the foreground",
+        "valid_answers": [
+          "fg",
+          "fg %1"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Bring the second background job back to the foreground",
+        "valid_answers": [
+          "fg %2"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "df",
     "command": "df",
+    "mac_compatible": true,
     "short_desc": "Show available and used disk space on mounted filesystems",
     "scenario": "You want to check how much disk space is left on your server before a large file transfer",
     "category": "processes",
     "common_flags": [
-      { "flag": "-h", "desc": "Show sizes in human readable format like GB and MB" }
+      {
+        "flag": "-h",
+        "desc": "Show sizes in human readable format like GB and MB"
+      }
     ],
     "example": "df -h",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check how much disk space is available on all mounted filesystems",
+        "valid_answers": [
+          "df",
+          "df -h"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Check disk space on all mounted filesystems in a human readable format",
+        "valid_answers": [
+          "df -h"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "du",
     "command": "du",
+    "mac_compatible": true,
     "short_desc": "Show how much disk space a file or directory is using",
     "scenario": "You want to find out which folders in your home directory are taking up the most space",
     "category": "processes",
     "common_flags": [
-      { "flag": "-s", "desc": "Show a summary total rather than every subdirectory" },
-      { "flag": "-h", "desc": "Show sizes in human readable format" }
+      {
+        "flag": "-s",
+        "desc": "Show a summary total rather than every subdirectory"
+      },
+      {
+        "flag": "-h",
+        "desc": "Show sizes in human readable format"
+      }
     ],
     "example": "du -sh *",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check the total size of a folder called projects",
+        "valid_answers": [
+          "du -sh projects",
+          "du -s projects"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "List the size of every item in the current directory in human readable format sorted by size",
+        "valid_answers": [
+          "du -sh * | sort -h"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "free",
     "command": "free",
+    "mac_compatible": false,
     "short_desc": "Show total, used and available memory on the system",
     "scenario": "You want to check how much RAM is currently being used on a server",
     "category": "processes",
     "common_flags": [
-      { "flag": "-h", "desc": "Show sizes in human readable format" }
+      {
+        "flag": "-h",
+        "desc": "Show sizes in human readable format"
+      }
     ],
     "example": "free -h",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check how much RAM is currently available on the system",
+        "valid_answers": [
+          "free",
+          "free -h"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Check memory usage in a human readable format",
+        "valid_answers": [
+          "free -h"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "uname",
     "command": "uname",
+    "mac_compatible": true,
     "short_desc": "Print system information including kernel and architecture",
     "scenario": "You want to confirm what operating system and kernel version a server is running",
     "category": "processes",
     "common_flags": [
-      { "flag": "-a", "desc": "Show all available system information" }
+      {
+        "flag": "-a",
+        "desc": "Show all available system information"
+      }
     ],
     "example": "uname -a",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check what operating system the current machine is running",
+        "valid_answers": [
+          "uname",
+          "uname -a"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Print all available system information including kernel version and architecture",
+        "valid_answers": [
+          "uname -a"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "uptime",
     "command": "uptime",
+    "mac_compatible": true,
     "short_desc": "Show how long the system has been running and current load",
     "scenario": "You want to check whether a server was recently rebooted and what the current load average is",
     "category": "processes",
     "common_flags": [],
     "example": "uptime",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check how long the system has been running",
+        "valid_answers": [
+          "uptime"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "whoami",
     "command": "whoami",
+    "mac_compatible": true,
     "short_desc": "Print the username of the currently logged in user",
     "scenario": "You are on an unfamiliar server and want to confirm which user account you are logged in as",
     "category": "processes",
     "common_flags": [],
     "example": "whoami",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check which user account you are currently logged in as",
+        "valid_answers": [
+          "whoami"
+        ],
+        "mode": "realism"
+      }
+    ]
   },
   {
     "id": "ping",
     "command": "ping",
+    "mac_compatible": true,
     "short_desc": "Test network connectivity to a host",
     "scenario": "You want to check whether a remote server is reachable from your machine",
     "category": "networking",
     "common_flags": [
-      { "flag": "-c", "desc": "Specify how many packets to send before stopping" }
+      {
+        "flag": "-c",
+        "desc": "Specify how many packets to send before stopping"
+      }
     ],
     "example": "ping -c 4 google.com",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Check if google.com is reachable from your machine",
+        "valid_answers": [
+          "ping google.com"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Send exactly 4 packets to google.com and then stop",
+        "valid_answers": [
+          "ping -c 4 google.com"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "curl",
     "command": "curl",
+    "mac_compatible": true,
     "short_desc": "Transfer data to or from a URL",
     "scenario": "You want to test whether an API endpoint is responding and see its output",
     "category": "networking",
     "common_flags": [
-      { "flag": "-X", "desc": "Specify the HTTP method, GET POST etc" },
-      { "flag": "-H", "desc": "Add a header to the request" },
-      { "flag": "-d", "desc": "Send data in the request body" },
-      { "flag": "-o", "desc": "Write output to a file instead of the terminal" }
+      {
+        "flag": "-X",
+        "desc": "Specify the HTTP method, GET POST etc"
+      },
+      {
+        "flag": "-H",
+        "desc": "Add a header to the request"
+      },
+      {
+        "flag": "-d",
+        "desc": "Send data in the request body"
+      },
+      {
+        "flag": "-o",
+        "desc": "Write output to a file instead of the terminal"
+      }
     ],
     "example": "curl -X GET https://api.example.com/status",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Make a GET request to https://api.example.com/status and print the response",
+        "valid_answers": [
+          "curl https://api.example.com/status",
+          "curl -X GET https://api.example.com/status"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Make a POST request to https://api.example.com/users with a JSON body containing name and email",
+        "valid_answers": [
+          "curl -X POST https://api.example.com/users -H 'Content-Type: application/json' -d '{\"name\":\"john\",\"email\":\"john@example.com\"}'",
+          "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"john\",\"email\":\"john@example.com\"}' https://api.example.com/users"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "wget",
     "command": "wget",
+    "mac_compatible": true,
     "short_desc": "Download a file from a URL",
     "scenario": "You want to download an installation script from the internet to your server",
     "category": "networking",
     "common_flags": [
-      { "flag": "-O", "desc": "Save the download with a specific filename" },
-      { "flag": "-q", "desc": "Run quietly without showing progress output" }
+      {
+        "flag": "-O",
+        "desc": "Save the download with a specific filename"
+      },
+      {
+        "flag": "-q",
+        "desc": "Run quietly without showing progress output"
+      }
     ],
     "example": "wget -O setup.sh https://example.com/setup.sh",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Download a file from https://example.com/setup.sh",
+        "valid_answers": [
+          "wget https://example.com/setup.sh"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Download a file from https://example.com/setup.sh and save it as install.sh",
+        "valid_answers": [
+          "wget -O install.sh https://example.com/setup.sh"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "ssh",
     "command": "ssh",
+    "mac_compatible": true,
     "short_desc": "Connect securely to a remote machine over the network",
     "scenario": "You want to log into a remote server to run commands on it",
     "category": "networking",
     "common_flags": [
-      { "flag": "-i", "desc": "Specify a private key file for authentication" },
-      { "flag": "-p", "desc": "Connect on a non-default port" }
+      {
+        "flag": "-i",
+        "desc": "Specify a private key file for authentication"
+      },
+      {
+        "flag": "-p",
+        "desc": "Connect on a non-default port"
+      }
     ],
     "example": "ssh user@192.168.1.10",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Connect to a remote server at 192.168.1.10 as a user called deploy",
+        "valid_answers": [
+          "ssh deploy@192.168.1.10"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Connect to a remote server at 192.168.1.10 as deploy using a specific key file called id_rsa",
+        "valid_answers": [
+          "ssh -i id_rsa deploy@192.168.1.10"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "scp",
     "command": "scp",
+    "mac_compatible": true,
     "short_desc": "Securely copy files between machines over SSH",
     "scenario": "You want to copy a config file from your local machine to a remote server",
     "category": "networking",
     "common_flags": [
-      { "flag": "-r", "desc": "Copy an entire directory recursively" },
-      { "flag": "-i", "desc": "Specify a private key file for authentication" }
+      {
+        "flag": "-r",
+        "desc": "Copy an entire directory recursively"
+      },
+      {
+        "flag": "-i",
+        "desc": "Specify a private key file for authentication"
+      }
     ],
     "example": "scp config.yml user@192.168.1.10:/etc/myapp/",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Copy a local file called config.yml to the home directory of a user called deploy on a server at 192.168.1.10",
+        "valid_answers": [
+          "scp config.yml deploy@192.168.1.10:~",
+          "scp config.yml deploy@192.168.1.10:~/"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Recursively copy a local folder called app to the /var/www directory on a server at 192.168.1.10 as deploy",
+        "valid_answers": [
+          "scp -r app deploy@192.168.1.10:/var/www",
+          "scp -r app deploy@192.168.1.10:/var/www/"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "ss",
     "command": "ss",
+    "mac_compatible": false,
     "short_desc": "Show active network connections and listening ports",
     "scenario": "You want to check which ports are currently open and listening on your machine",
     "category": "networking",
     "common_flags": [
-      { "flag": "-t", "desc": "Show TCP connections only" },
-      { "flag": "-l", "desc": "Show only listening sockets" },
-      { "flag": "-n", "desc": "Show numeric addresses instead of resolving hostnames" }
+      {
+        "flag": "-t",
+        "desc": "Show TCP connections only"
+      },
+      {
+        "flag": "-l",
+        "desc": "Show only listening sockets"
+      },
+      {
+        "flag": "-n",
+        "desc": "Show numeric addresses instead of resolving hostnames"
+      }
     ],
     "example": "ss -tln",
-    "difficulty": "intermediate"
+    "difficulty": "intermediate",
+    "challenges": [
+      {
+        "prompt": "Show all active network connections on the system",
+        "valid_answers": [
+          "ss",
+          "ss -t"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Show all listening TCP ports with numeric addresses",
+        "valid_answers": [
+          "ss -tln",
+          "ss -nlt",
+          "ss -lnt"
+        ],
+        "mode": "mastery"
+      }
+    ]
   },
   {
     "id": "ip",
     "command": "ip",
+    "mac_compatible": false,
     "short_desc": "Show or manage network interfaces and routing",
     "scenario": "You want to find the IP address assigned to your machine",
     "category": "networking",
     "common_flags": [
-      { "flag": "a", "desc": "Show all network interfaces and their addresses" }
+      {
+        "flag": "a",
+        "desc": "Show all network interfaces and their addresses"
+      }
     ],
     "example": "ip a",
-    "difficulty": "beginner"
+    "difficulty": "beginner",
+    "challenges": [
+      {
+        "prompt": "Show all network interfaces and their IP addresses",
+        "valid_answers": [
+          "ip a",
+          "ip addr",
+          "ip address"
+        ],
+        "mode": "realism"
+      },
+      {
+        "prompt": "Show only the network interfaces that are currently active",
+        "valid_answers": [
+          "ip link show up",
+          "ip a | grep UP"
+        ],
+        "mode": "mastery"
+      }
+    ]
   }
 ]

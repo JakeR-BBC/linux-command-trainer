@@ -5,6 +5,7 @@ import CategorySelect from './components/CategorySelect'
 import ModeSelect from './components/ModeSelect'
 import commands from './commands.json'
 import RecognitionCard from './components/RecognitionCard'
+import NavRail from './components/NavRail'
 import {
   incrementCorrect,
   retireCommand,
@@ -181,11 +182,16 @@ function handleSubmit(isCorrect) {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<ModeSelect />} />
-      <Route path="/category" element={<CategorySelect />} />
-      <Route path="/drill" element={<DrillScreen />} />
-    </Routes>
+    <div className="app-layout">
+      <NavRail />
+      <main className="app-main">
+        <Routes>
+          <Route path="/" element={<ModeSelect />} />
+          <Route path="/category" element={<CategorySelect />} />
+          <Route path="/drill" element={<DrillScreen />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 

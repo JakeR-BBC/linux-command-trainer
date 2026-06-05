@@ -1,1 +1,11 @@
-Up to date
+- Data foundation ✅
+- Basic drill loop ✅
+- Scoring and progression ✅ 
+- Modes (recall, recognition, scenario) ✅
+- Polish ✅
+- Side rail for quick navigation
+- Expanded scenario mode requiring specific arguments (e.g. chmod -r)
+- User accounts as an upgrade from localStorage
+- Proper score/results screen at the end of a session
+- Guided journey mode (recognition → recall → scenario)
+- Hint system

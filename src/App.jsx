@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
@@ -8,18 +8,8 @@ import RecognitionCard from './components/RecognitionCard'
 import NavRail from './components/NavRail'
 import MacBadge from './components/MacBadge'
 import ChallengeCard from './components/ChallengeCard'
-import {
-  incrementCorrect,
-  retireCommand,
-  restoreCategory,
-  isRetired,
-  getRetiredCount
-} from './utils/progress'
-
-function getRandomCommand(pool, currentId) {
-  const others = pool.filter(c => c.id !== currentId)
-  return others[Math.floor(Math.random() * others.length)]
-}
+import { saveResult } from './utils/results'
+import { incrementCorrect } from './utils/progress'
 
 function DrillScreen() {
   const navigate = useNavigate()
@@ -27,8 +17,6 @@ function DrillScreen() {
   const selected = params.get('category')
   const mode = params.get('mode')
   const isAll = selected === 'all'
-  const [showMacPopup, setShowMacPopup] = useState(false)
-
 
   function getActivePool() {
     const base = isAll
@@ -39,8 +27,7 @@ function DrillScreen() {
       ? base.filter(cmd => cmd.challenges?.some(ch => ch.mode === mode))
       : base
 
-    if (isAll) return withChallenges
-    return withChallenges.filter(cmd => !isRetired(cmd.id, selected))
+    return withChallenges
   }
 
   const [command, setCommand] = useState(() => {
@@ -49,109 +36,115 @@ function DrillScreen() {
     return pool[Math.floor(Math.random() * pool.length)]
   })
   const [feedback, setFeedback] = useState(null)
-  const [retirePrompt, setRetirePrompt] = useState(false)
-  const [retiredCount, setRetiredCount] = useState(() =>
-    isAll ? 0 : getRetiredCount(selected, commands.filter(c => c.category === selected))
-  )
+  const [seen, setSeen] = useState(new Set())
+  const [correct, setCorrect] = useState(0)
+  const [incorrect, setIncorrect] = useState(0)
+  const [skipped, setSkipped] = useState(0)
+  const [attempts, setAttempts] = useState({})
+  const [sessionComplete, setSessionComplete] = useState(false)
+  const [newBest, setNewBest] = useState(false)
+  const [showMacPopup, setShowMacPopup] = useState(false)
+  const finalResultRef = useRef(null)
 
-  function nextCommand(excludeId) {
+  function nextCommand(currentId) {
     const pool = getActivePool()
-    const others = pool.filter(c => c.id !== excludeId)
-    if (others.length === 0) return null
-    return others[Math.floor(Math.random() * others.length)]
+    const unseen = pool.filter(c => c.id !== currentId && !seen.has(c.id))
+    if (unseen.length === 0) return null
+    return unseen[Math.floor(Math.random() * unseen.length)]
+  }
+
+  function endSession(finalCorrect, finalIncorrect, finalSkipped, finalSeen) {
+    const total = finalSeen.size
+    const accuracy = total > 0 ? Math.round((finalCorrect / total) * 100) : 0
+    const result = { correct: finalCorrect, incorrect: finalIncorrect, skipped: finalSkipped, accuracy }
+    const isNewBest = saveResult(mode, selected, result)
+    finalResultRef.current = result
+    setNewBest(isNewBest)
+    setSessionComplete(true)
   }
 
   function handleSubmit(isCorrect) {
     setFeedback(isCorrect ? 'correct' : 'incorrect')
 
     if (isCorrect) {
+      const updatedSeen = new Set(seen).add(command.id)
+      setSeen(updatedSeen)
+      const newCorrect = correct + 1
+      setCorrect(newCorrect)
+
       if (!command.mac_compatible) {
         setShowMacPopup(true)
       }
 
-      const newCount = incrementCorrect(command.id)
-      const pool = getActivePool()
-      const isLastCommand = pool.filter(c => c.id !== command.id).length === 0
+      incrementCorrect(command.id)
 
-      if (!isAll && isLastCommand && mode === 'recognition') {
-        retireCommand(command.id, selected)
-        setTimeout(() => {
-          navigate(`/category?mode=${mode}`)
-        }, 1000)
-      } else if (!isAll && newCount >= 3) {
-        setRetirePrompt(true)
-      } else {
-        setTimeout(() => {
-          setCommand(nextCommand(command.id))
+      setTimeout(() => {
+        const next = nextCommand(command.id)
+        if (!next) {
+          endSession(newCorrect, incorrect, skipped, updatedSeen)
+        } else {
+          setCommand(next)
           setFeedback(null)
-        }, command.mac_compatible ? 1000 : 5000)
-      }
+        }
+      }, command.mac_compatible ? 1000 : 5000)
+
     } else {
-      if (mode === 'recognition') {
+      const currentAttempts = (attempts[command.id] || 0) + 1
+      setAttempts(prev => ({ ...prev, [command.id]: currentAttempts }))
+
+      if (mode === 'recognition' || currentAttempts >= 2) {
+        const updatedSeen = new Set(seen).add(command.id)
+        setSeen(updatedSeen)
+        const newIncorrect = incorrect + 1
+        setIncorrect(newIncorrect)
+
         setTimeout(() => {
-          setCommand(nextCommand(command.id))
-          setFeedback(null)
+          const next = nextCommand(command.id)
+          if (!next) {
+            endSession(correct, newIncorrect, skipped, updatedSeen)
+          } else {
+            setCommand(next)
+            setFeedback(null)
+          }
         }, 1500)
       }
     }
   }
 
-  function handleRetire(shouldRetire) {
-    if (shouldRetire) {
-      retireCommand(command.id, selected)
-      const newRetiredCount = retiredCount + 1
-      setRetiredCount(newRetiredCount)
-      const next = nextCommand(command.id)
-      if (!next) {
-        navigate('/')
-      } else {
-        setCommand(next)
-      }
-    } else {
-      setTimeout(() => {
-        setCommand(nextCommand(command.id))
-      }, 500)
-    }
-    setRetirePrompt(false)
-    setFeedback(null)
-    setShowMacPopup(false)
-  }
-
-  function handleRestore() {
-    const categoryCommands = commands.filter(c => c.category === selected)
-    restoreCategory(selected, categoryCommands)
-    setRetiredCount(0)
-    const pool = commands.filter(c => c.category === selected)
-    setCommand(pool[Math.floor(Math.random() * pool.length)])
-    setFeedback(null)
-    setRetirePrompt(false)
-  }
-
   function handleSkip() {
-    setCommand(nextCommand(command.id))
-    setFeedback(null)
-    setRetirePrompt(false)
-    setShowMacPopup(false)
+    const updatedSeen = new Set(seen).add(command.id)
+    setSeen(updatedSeen)
+    const newSkipped = skipped + 1
+    setSkipped(newSkipped)
+    const next = nextCommand(command.id)
+    if (!next) {
+      endSession(correct, incorrect, newSkipped, updatedSeen)
+    } else {
+      setCommand(next)
+      setFeedback(null)
+      setShowMacPopup(false)
+    }
   }
 
-  if (!command) {
+  if (sessionComplete && finalResultRef.current) {
+    const { correct: fc, incorrect: fi, skipped: fs } = finalResultRef.current
     return (
-      <div className="completed-screen">
+      <div className="results-screen">
         <h1>Linux Command Trainer</h1>
-        <div className="retire-prompt">
-          <p>🎉 You've nailed every command in this category!</p>
-          <div className="retire-actions">
-            <button className="retire-btn yes" onClick={handleRestore}>
-              Reset category
-            </button>
-            <button className="retire-btn no" onClick={() => navigate('/')}>
-              ← Back to categories
-            </button>
-          </div>
+        <p>Session complete!</p>
+        <p>✅ Correct: {fc}</p>
+        <p>❌ Incorrect: {fi}</p>
+        <p>⏭️ Skipped: {fs}</p>
+        <p>📊 Accuracy: {finalResultRef.current.accuracy}%</p>
+        <div className="results-actions">
+          <button className="results-btn yes" onClick={() => navigate(`/drill?mode=${mode}&category=${selected}`)}>Retry</button>
+          <button className="results-btn no" onClick={() => navigate(`/category?mode=${mode}`)}>Back to categories</button>
         </div>
       </div>
     )
   }
+
+  if (!command) return null
 
   return (
     <div>
@@ -169,41 +162,14 @@ function DrillScreen() {
             challenge={command.challenges?.find(c => c.mode === mode)}
             onSubmit={handleSubmit}
           />
-          : <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
+          : <DrillCard command={command} onSubmit={handleSubmit} disabled={false} />
       }
-      {feedback && !retirePrompt && (
+      {feedback && (
         <p className={`feedback ${feedback}`}>
           {feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}
         </p>
       )}
-      {retirePrompt && (
-        <div
-          className={`retire-prompt ${showMacPopup ? 'blocked' : ''}`}
-          tabIndex={showMacPopup ? -1 : 0}
-          ref={el => el && !showMacPopup && el.focus()}
-          onKeyDown={(e) => {
-            if (showMacPopup) return
-            if (e.key === 'Enter') handleRetire(true)
-            if (e.key === 'Backspace') handleRetire(false)
-          }}
-        >
-          <p>You've nailed <span className="highlight">{command.command}</span> 3 times — retire it from this category for now?</p>
-          <div className="retire-actions">
-            <button className="retire-btn yes" onClick={() => !showMacPopup && handleRetire(true)}>
-              Yes, retire it <span className="key-hint">↵ Enter</span>
-            </button>
-            <button className="retire-btn no" onClick={() => !showMacPopup && handleRetire(false)}>
-              Keep drilling it <span className="key-hint">⌫ Backspace</span>
-            </button>
-          </div>
-        </div>
-      )}
       <div className="drill-footer">
-        {!isAll && retiredCount > 0 && (
-          <button className="restore-btn" onClick={handleRestore}>
-            Restore retired commands ({retiredCount})
-          </button>
-        )}
         <div className="drill-footer-nav">
           <span className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
             ← Back to categories

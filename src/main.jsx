@@ -13,7 +13,7 @@ function Root() {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/linux-command-trainer">
       <App />
     </BrowserRouter>
   )

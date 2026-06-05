@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
@@ -6,6 +6,7 @@ import ModeSelect from './components/ModeSelect'
 import commands from './commands.json'
 import RecognitionCard from './components/RecognitionCard'
 import NavRail from './components/NavRail'
+import MacBadge from './components/MacBadge'
 import {
   incrementCorrect,
   retireCommand,
@@ -25,6 +26,8 @@ function DrillScreen() {
   const selected = params.get('category')
   const mode = params.get('mode')
   const isAll = selected === 'all'
+  const [showMacPopup, setShowMacPopup] = useState(false)
+
 
   function getActivePool() {
     const base = isAll
@@ -52,10 +55,14 @@ function DrillScreen() {
     return others[Math.floor(Math.random() * others.length)]
   }
 
-function handleSubmit(isCorrect) {
+  function handleSubmit(isCorrect) {
     setFeedback(isCorrect ? 'correct' : 'incorrect')
 
     if (isCorrect) {
+      if (!command.mac_compatible) {
+        setShowMacPopup(true)
+      }
+
       const newCount = incrementCorrect(command.id)
       const pool = getActivePool()
       const isLastCommand = pool.filter(c => c.id !== command.id).length === 0
@@ -71,7 +78,7 @@ function handleSubmit(isCorrect) {
         setTimeout(() => {
           setCommand(nextCommand(command.id))
           setFeedback(null)
-        }, 1000)
+        }, command.mac_compatible ? 1000 : 5000)
       }
     } else {
       if (mode === 'recognition') {
@@ -101,6 +108,7 @@ function handleSubmit(isCorrect) {
     }
     setRetirePrompt(false)
     setFeedback(null)
+    setShowMacPopup(false)
   }
 
   function handleRestore() {
@@ -137,9 +145,9 @@ function handleSubmit(isCorrect) {
       <h1>Linux Command Trainer</h1>
       <p className="prompt">{mode === 'scenario' ? command.scenario : command.short_desc}</p>
       {mode === 'recognition'
-  ? <RecognitionCard command={command} pool={getActivePool()} onSubmit={handleSubmit} />
-  : <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
-}
+        ? <RecognitionCard command={command} pool={getActivePool()} onSubmit={handleSubmit} />
+        : <DrillCard command={command} onSubmit={handleSubmit} disabled={retirePrompt} />
+      }
       {feedback && !retirePrompt && (
         <p className={`feedback ${feedback}`}>
           {feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}
@@ -147,25 +155,31 @@ function handleSubmit(isCorrect) {
       )}
       {retirePrompt && (
         <div
-          className="retire-prompt"
-          tabIndex={0}
-          ref={el => el && el.focus()}
+          className={`retire-prompt ${showMacPopup ? 'blocked' : ''}`}
+          tabIndex={showMacPopup ? -1 : 0}
+          ref={el => el && !showMacPopup && el.focus()}
           onKeyDown={(e) => {
+            if (showMacPopup) return
             if (e.key === 'Enter') handleRetire(true)
             if (e.key === 'Backspace') handleRetire(false)
           }}
         >
           <p>You've nailed <span className="highlight">{command.command}</span> 3 times — retire it from this category for now?</p>
           <div className="retire-actions">
-            <button className="retire-btn yes" onClick={() => handleRetire(true)}>
+            <button className="retire-btn yes" onClick={() => !showMacPopup && handleRetire(true)}>
               Yes, retire it <span className="key-hint">↵ Enter</span>
             </button>
-            <button className="retire-btn no" onClick={() => handleRetire(false)}>
+            <button className="retire-btn no" onClick={() => !showMacPopup && handleRetire(false)}>
               Keep drilling it <span className="key-hint">⌫ Backspace</span>
             </button>
           </div>
         </div>
       )}
+      <MacBadge
+        command={command}
+        show={showMacPopup}
+        onDismiss={() => setShowMacPopup(false)}
+      />
       <div className="drill-footer">
         {!isAll && retiredCount > 0 && (
           <button className="restore-btn" onClick={handleRestore}>
@@ -173,8 +187,8 @@ function handleSubmit(isCorrect) {
           </button>
         )}
         <span className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
-  ← Back to categories
-</span>
+          ← Back to categories
+        </span>
       </div>
     </div>
   )

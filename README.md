@@ -8,7 +8,7 @@ containers, and cloud instances. Most work identically on macOS,
 which shares Unix roots with Linux.
 
 ## Features
-- Three drill modes: Recognition, Recall, and Scenario
+- Fibe drill modes: Recognition, Recall, Scenario, Realism, Mastery
 - Six command categories: Navigation, Files, Permissions, Search, Processes, Networking
 - Command retirement system to focus on weak spots
 - Progress tracked locally in the browser

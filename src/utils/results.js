@@ -23,6 +23,7 @@ export function saveResult(mode, category, result) {
       incorrect: result.incorrect,
       skipped: result.skipped,
       accuracy: result.accuracy,
+      total: result.total,
       date: new Date().toISOString()
     }
     localStorage.setItem(RESULTS_KEY, JSON.stringify(results))

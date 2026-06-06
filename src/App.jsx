@@ -9,6 +9,7 @@ import NavRail from './components/NavRail'
 import MacBadge from './components/MacBadge'
 import ChallengeCard from './components/ChallengeCard'
 import ResultsScreen from './components/ResultsScreen'
+import ProgressPage from './components/ProgressPage'
 import { saveResult } from './utils/results'
 import { incrementCorrect } from './utils/progress'
 
@@ -68,7 +69,7 @@ function DrillScreen() {
   function endSession(finalCorrect, finalIncorrect, finalSkipped, finalSeen) {
     const total = finalSeen.size
     const accuracy = total > 0 ? Math.round((finalCorrect / total) * 100) : 0
-    const result = { correct: finalCorrect, incorrect: finalIncorrect, skipped: finalSkipped, accuracy }
+    const result = { correct: finalCorrect, incorrect: finalIncorrect, skipped: finalSkipped, accuracy, total }
     const isNewBest = saveResult(mode, selected, result)
     finalResultRef.current = result
     setNewBest(isNewBest)
@@ -205,6 +206,7 @@ function App() {
       <NavRail />
       <main className="app-main">
         <Routes>
+          <Route path="/progress" element={<ProgressPage />} />
           <Route path="/" element={<ModeSelect />} />
           <Route path="/category" element={<CategorySelect />} />
           <Route path="/drill" element={<DrillScreen />} />

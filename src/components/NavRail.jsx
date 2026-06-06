@@ -36,6 +36,12 @@ function NavRail() {
       </div>
       <div className="nav-links">
         <span
+          className={`nav-link ${location.pathname === '/progress' ? 'active' : ''}`}
+          onClick={() => navigate('/progress')}
+        >
+          Progress
+        </span>
+        <span
           className={`nav-link ${!mode && !category ? 'active' : ''}`}
           onClick={() => navigate('/')}
         >

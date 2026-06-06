@@ -531,3 +531,65 @@ h1 {
   color: #888;
   font-size: 0.85rem;
 }
+
+/* Progress page */
+.progress-page {
+  text-align: center;
+}
+
+.progress-table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.progress-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.progress-table th {
+  color: #888;
+  font-weight: normal;
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #222;
+}
+
+.progress-table td {
+  padding: 0.5rem 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #111;
+}
+
+.progress-category {
+  color: #888;
+  text-align: left !important;
+  white-space: nowrap;
+}
+
+.progress-cell {
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+  display: inline-block;
+  min-width: 2.5rem;
+}
+
+.progress-cell.attempted {
+  color: #28c840;
+  border: 1px solid #28c840;
+}
+
+.progress-cell.unattempted {
+  color: #555;
+  border: 1px solid #333;
+}
+
+.progress-cell:hover {
+  background-color: #1a1a2e;
+  color: #f0f0f0;
+  border-color: #f0f0f0;
+}

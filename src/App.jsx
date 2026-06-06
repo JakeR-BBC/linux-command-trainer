@@ -8,6 +8,7 @@ import RecognitionCard from './components/RecognitionCard'
 import NavRail from './components/NavRail'
 import MacBadge from './components/MacBadge'
 import ChallengeCard from './components/ChallengeCard'
+import ResultsScreen from './components/ResultsScreen'
 import { saveResult } from './utils/results'
 import { incrementCorrect } from './utils/progress'
 
@@ -46,9 +47,10 @@ function DrillScreen() {
   const [showMacPopup, setShowMacPopup] = useState(false)
   const finalResultRef = useRef(null)
 
-  function nextCommand(currentId) {
+  function nextCommand(currentId, seenOverride) {
     const pool = getActivePool()
-    const unseen = pool.filter(c => c.id !== currentId && !seen.has(c.id))
+    const seenSet = seenOverride || seen
+    const unseen = pool.filter(c => c.id !== currentId && !seenSet.has(c.id))
     if (unseen.length === 0) return null
     return unseen[Math.floor(Math.random() * unseen.length)]
   }
@@ -64,6 +66,7 @@ function DrillScreen() {
   }
 
   function handleSubmit(isCorrect) {
+    if (sessionComplete) return
     setFeedback(isCorrect ? 'correct' : 'incorrect')
 
     if (isCorrect) {
@@ -79,7 +82,7 @@ function DrillScreen() {
       incrementCorrect(command.id)
 
       setTimeout(() => {
-        const next = nextCommand(command.id)
+        const next = nextCommand(command.id, updatedSeen)
         if (!next) {
           endSession(newCorrect, incorrect, skipped, updatedSeen)
         } else {
@@ -99,7 +102,7 @@ function DrillScreen() {
         setIncorrect(newIncorrect)
 
         setTimeout(() => {
-          const next = nextCommand(command.id)
+          const next = nextCommand(command.id, updatedSeen)
           if (!next) {
             endSession(correct, newIncorrect, skipped, updatedSeen)
           } else {
@@ -112,11 +115,12 @@ function DrillScreen() {
   }
 
   function handleSkip() {
+    if (sessionComplete) return
     const updatedSeen = new Set(seen).add(command.id)
     setSeen(updatedSeen)
     const newSkipped = skipped + 1
     setSkipped(newSkipped)
-    const next = nextCommand(command.id)
+    const next = nextCommand(command.id, updatedSeen)
     if (!next) {
       endSession(correct, incorrect, newSkipped, updatedSeen)
     } else {
@@ -129,18 +133,16 @@ function DrillScreen() {
   if (sessionComplete && finalResultRef.current) {
     const { correct: fc, incorrect: fi, skipped: fs } = finalResultRef.current
     return (
-      <div className="results-screen">
-        <h1>Linux Command Trainer</h1>
-        <p>Session complete!</p>
-        <p>✅ Correct: {fc}</p>
-        <p>❌ Incorrect: {fi}</p>
-        <p>⏭️ Skipped: {fs}</p>
-        <p>📊 Accuracy: {finalResultRef.current.accuracy}%</p>
-        <div className="results-actions">
-          <button className="results-btn yes" onClick={() => navigate(`/drill?mode=${mode}&category=${selected}`)}>Retry</button>
-          <button className="results-btn no" onClick={() => navigate(`/category?mode=${mode}`)}>Back to categories</button>
-        </div>
-      </div>
+      <ResultsScreen
+        mode={mode}
+        category={selected}
+        correct={fc}
+        incorrect={fi}
+        skipped={fs}
+        newBest={newBest}
+        onRetry={() => navigate(`/drill?mode=${mode}&category=${selected}`)}
+        onBack={() => navigate(`/category?mode=${mode}`)}
+      />
     )
   }
 

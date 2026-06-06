@@ -459,3 +459,75 @@ h1 {
 .skip-btn:hover {
   color: #f0f0f0;
 }
+
+.results-screen {
+  text-align: center;
+}
+
+.results-card {
+  background-color: #0d1117;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.results-title {
+  font-size: 1.5rem;
+  color: #f0f0f0;
+  font-weight: bold;
+}
+
+.results-meta {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.results-best {
+  color: #febc2e;
+  font-size: 1rem;
+}
+
+.results-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.results-stat {
+  background-color: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.results-stat.accuracy {
+  grid-column: 1 / -1;
+}
+
+.results-stat-icon {
+  font-size: 1.2rem;
+}
+
+.results-stat-label {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.results-stat-value {
+  color: #f0f0f0;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.results-previous {
+  color: #888;
+  font-size: 0.85rem;
+}

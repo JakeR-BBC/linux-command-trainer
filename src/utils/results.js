@@ -13,6 +13,8 @@ export function saveResult(mode, category, result) {
   const key = `${mode}__${category}`
   const existing = results[key]
 
+  if (!existing && result.accuracy === 0) return false
+
   if (!existing || result.accuracy > existing.accuracy) {
     results[key] = {
       mode,

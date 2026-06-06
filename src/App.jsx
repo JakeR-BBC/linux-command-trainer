@@ -11,6 +11,7 @@ import MacBadge from './components/MacBadge'
 import ChallengeCard from './components/ChallengeCard'
 import ResultsScreen from './components/ResultsScreen'
 import ProgressPage from './components/ProgressPage'
+import Library from './components/Library'
 import Landing from './components/Landing'
 import { saveResult } from './utils/results'
 import { incrementCorrect } from './utils/progress'
@@ -239,6 +240,7 @@ function App() {
           <Route path="/modes" element={<ModeSelect />} />
           <Route path="/drill" element={<DrillScreenWrapper />} />
           <Route path="/progress" element={<ProgressPage />} />
+          <Route path="/library" element={<Library />} />
         </Routes>
       </main>
     </div>

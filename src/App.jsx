@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
 import ModeSelect from './components/ModeSelect'
@@ -39,6 +40,7 @@ function DrillScreen() {
     return pool[Math.floor(Math.random() * pool.length)]
   })
   const [feedback, setFeedback] = useState(null)
+  const macTimeoutRef = useRef(null)
   const [seen, setSeen] = useState(new Set())
   const [correct, setCorrect] = useState(0)
   const [incorrect, setIncorrect] = useState(0)
@@ -97,7 +99,7 @@ function DrillScreen() {
 
       incrementCorrect(command.id)
 
-      setTimeout(() => {
+      macTimeoutRef.current = setTimeout(() => {
         const next = nextCommand(command.id, updatedSeen)
         if (!next) {
           endSession(newCorrect, incorrect, skipped, updatedSeen)
@@ -156,7 +158,10 @@ function DrillScreen() {
         incorrect={fi}
         skipped={fs}
         newBest={newBest}
-        onRetry={() => navigate(`/drill?mode=${mode}&category=${selected}`)}
+        onRetry={() => {
+          console.log('retry clicked, navigating to:', `/drill?mode=${mode}&category=${selected}&t=${Date.now()}`)
+          navigate(`/drill?mode=${mode}&category=${selected}&t=${Date.now()}`)
+        }}
         onBack={() => navigate(`/modes?category=${selected}`)}
       />
     )
@@ -172,7 +177,24 @@ function DrillScreen() {
           : mode === 'realism' || mode === 'mastery' ? command.challenges?.find(c => c.mode === mode)?.prompt
             : command.short_desc}
       </p>
-      <MacBadge command={command} show={showMacPopup} onDismiss={() => setShowMacPopup(false)} />
+      <MacBadge
+        command={command}
+        show={showMacPopup}
+        onDismiss={() => {
+          setShowMacPopup(false)
+          if (macTimeoutRef.current) {
+            clearTimeout(macTimeoutRef.current)
+            const updatedSeen = new Set(seen)
+            const next = nextCommand(command.id, updatedSeen)
+            if (!next) {
+              endSession(correct, incorrect, skipped, updatedSeen)
+            } else {
+              setCommand(next)
+              setFeedback(null)
+            }
+          }
+        }}
+      />
       {mode === 'recognition'
         ? <RecognitionCard command={command} pool={getActivePool()} onSubmit={handleSubmit} />
         : mode === 'realism' || mode === 'mastery'
@@ -201,6 +223,11 @@ function DrillScreen() {
   )
 }
 
+function DrillScreenWrapper() {
+  const location = useLocation()
+  return <DrillScreen key={location.search} />
+}
+
 function App() {
   return (
     <div className="app-layout">
@@ -210,7 +237,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/category" element={<CategorySelect />} />
           <Route path="/modes" element={<ModeSelect />} />
-          <Route path="/drill" element={<DrillScreen />} />
+          <Route path="/drill" element={<DrillScreenWrapper />} />
           <Route path="/progress" element={<ProgressPage />} />
         </Routes>
       </main>

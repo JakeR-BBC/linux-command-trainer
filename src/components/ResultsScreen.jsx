@@ -53,7 +53,7 @@ function ResultsScreen({ mode, category, correct, incorrect, skipped, newBest, o
                         Retry
                     </button>
                     <button className="results-btn no" onClick={onBack}>
-                        Back to categories
+                        Back to modes
                     </button>
                 </div>
             </div>

@@ -1,11 +1,28 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 function NavRail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const params = new URLSearchParams(location.search)
+  const [search, setSearch] = useState(location.search)
+
+  useEffect(() => {
+    if (!location.pathname.includes('/drill')) {
+      setSearch(location.search)
+    }
+    function handleLocationChange() {
+      setSearch(window.location.search)
+    }
+    window.addEventListener('locationchange', handleLocationChange)
+    return () => window.removeEventListener('locationchange', handleLocationChange)
+  }, [location])
+
+  const params = new URLSearchParams(search)
   const mode = params.get('mode')
   const category = params.get('category')
+  const current = params.get('current')
+  const total = params.get('total')
+  const complete = params.get('complete')
 
   function capitalise(str) {
     if (!str) return null
@@ -14,9 +31,9 @@ function NavRail() {
 
   return (
     <nav className="nav-rail">
-        <div className="nav-logo" onClick={() => navigate('/')}>
-            <span className="nav-logo-mark">&gt;_</span>
-        </div>
+      <div className="nav-logo" onClick={() => navigate('/')}>
+        <span className="nav-logo-mark">&gt;_</span>
+      </div>
       <div className="nav-links">
         <span
           className={`nav-link ${!mode && !category ? 'active' : ''}`}
@@ -37,6 +54,11 @@ function NavRail() {
         {mode && category && (
           <span className="nav-link active">
             Drill
+            {current && total && location.pathname.includes('/drill') && (
+              <span className="nav-meta">
+                {complete === 'true' ? 'Completed' : `In progress (${current}/${total})`}
+              </span>
+            )}
           </span>
         )}
       </div>

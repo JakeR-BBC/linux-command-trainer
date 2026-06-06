@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
@@ -47,6 +47,16 @@ function DrillScreen() {
   const [showMacPopup, setShowMacPopup] = useState(false)
   const finalResultRef = useRef(null)
 
+  useEffect(() => {
+    const total = getActivePool().length
+    const current = Math.min(seen.size + 1, total)
+    const newParams = new URLSearchParams(window.location.search)
+    newParams.set('current', current)
+    newParams.set('total', total)
+    window.history.replaceState(null, '', `?${newParams.toString()}`)
+    window.dispatchEvent(new Event('locationchange'))
+  }, [seen])
+
   function nextCommand(currentId, seenOverride) {
     const pool = getActivePool()
     const seenSet = seenOverride || seen
@@ -62,6 +72,10 @@ function DrillScreen() {
     const isNewBest = saveResult(mode, selected, result)
     finalResultRef.current = result
     setNewBest(isNewBest)
+    const newParams = new URLSearchParams(window.location.search)
+    newParams.set('complete', 'true')
+    window.history.replaceState(null, '', `?${newParams.toString()}`)
+    window.dispatchEvent(new Event('locationchange'))
     setSessionComplete(true)
   }
 

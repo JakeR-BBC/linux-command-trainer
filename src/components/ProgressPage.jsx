@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import commands from '../commands.json'
 import { getBestResult } from '../utils/results'
+import { isModeUnlocked, isAllUnlocked } from '../utils/unlocks'
 
 const modes = ['recognition', 'recall', 'scenario', 'realism', 'mastery']
 const categories = [...new Set(commands.map(c => c.category)), 'all']
@@ -33,6 +34,10 @@ function ProgressPage() {
     }
 
     function handleCellClick(mode, category) {
+        const unlocked = category === 'all'
+            ? isAllUnlocked(mode, commands)
+            : isModeUnlocked(mode, category, commands)
+        if (!unlocked) return
         navigate(`/drill?mode=${mode}&category=${category}`)
     }
 
@@ -57,7 +62,10 @@ function ProgressPage() {
                                 {modes.map(mode => (
                                     <td key={mode}>
                                         <span
-                                            className={`progress-cell ${getBestResult(mode, category) ? 'attempted' : 'unattempted'}`}
+                                            className={`progress-cell ${getBestResult(mode, category) ? 'attempted' : 'unattempted'} ${category === 'all'
+                                                    ? isAllUnlocked(mode, commands) ? '' : 'progress-locked'
+                                                    : isModeUnlocked(mode, category, commands) ? '' : 'progress-locked'
+                                                }`}
                                             onClick={() => handleCellClick(mode, category)}
                                         >
                                             {getCellContent(mode, category)}

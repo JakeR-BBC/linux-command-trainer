@@ -36,25 +36,31 @@ function NavRail() {
       </div>
       <div className="nav-links">
         <span
+          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          onClick={() => navigate('/')}
+        >
+          Home
+        </span>
+        <span
           className={`nav-link ${location.pathname === '/progress' ? 'active' : ''}`}
           onClick={() => navigate('/progress')}
         >
           Progress
         </span>
         <span
-          className={`nav-link ${!mode && !category ? 'active' : ''}`}
-          onClick={() => navigate('/')}
+          className={`nav-link ${location.pathname === '/category' ? 'active' : ''}`}
+          onClick={() => navigate('/category')}
         >
-          Mode
-          {mode && <span className="nav-meta">{capitalise(mode)}</span>}
+          Categories
+          {category && <span className="nav-meta">{capitalise(category)}</span>}
         </span>
-        {mode && (
+        {category && (
           <span
-            className={`nav-link ${mode && !category ? 'active' : ''}`}
-            onClick={() => navigate(`/category?mode=${mode}`)}
+            className={`nav-link ${location.pathname === '/modes' ? 'active' : ''}`}
+            onClick={() => navigate(`/modes?category=${category}`)}
           >
-            Category
-            {category && <span className="nav-meta">{capitalise(category)}</span>}
+            Mode
+            {mode && <span className="nav-meta">{capitalise(mode)}</span>}
           </span>
         )}
         {mode && category && (

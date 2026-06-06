@@ -593,3 +593,122 @@ h1 {
   color: #f0f0f0;
   border-color: #f0f0f0;
 }
+
+/* Landing */
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.landing-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.landing-tagline {
+  color: #888;
+  font-size: 1rem;
+}
+
+.landing-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.landing-card {
+  background-color: #0d1117;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.landing-card-title {
+  color: #28c840;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.landing-card-body {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.landing-modes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.landing-mode {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.landing-mode-icon {
+  font-size: 1.1rem;
+  margin-top: 0.1rem;
+}
+
+.landing-mode-name {
+  color: #f0f0f0;
+  font-size: 0.9rem;
+}
+
+.landing-mode-desc {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.landing-cta {
+  background-color: #28c840;
+  border: none;
+  border-radius: 6px;
+  color: #0d1117;
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.9rem 2rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: center;
+}
+
+.landing-cta:hover {
+  background-color: #22a835;
+}
+
+.progress-cell.progress-locked {
+  opacity: 0.3;
+  cursor: default;
+  border-color: #333;
+  color: #555;
+}
+
+.passkey-screen {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.passkey-screen .terminal {
+  width: 100%;
+  max-width: 500px;
+}

@@ -10,6 +10,7 @@ import MacBadge from './components/MacBadge'
 import ChallengeCard from './components/ChallengeCard'
 import ResultsScreen from './components/ResultsScreen'
 import ProgressPage from './components/ProgressPage'
+import Landing from './components/Landing'
 import { saveResult } from './utils/results'
 import { incrementCorrect } from './utils/progress'
 
@@ -156,7 +157,7 @@ function DrillScreen() {
         skipped={fs}
         newBest={newBest}
         onRetry={() => navigate(`/drill?mode=${mode}&category=${selected}`)}
-        onBack={() => navigate(`/category?mode=${mode}`)}
+        onBack={() => navigate(`/modes?category=${selected}`)}
       />
     )
   }
@@ -188,8 +189,8 @@ function DrillScreen() {
       )}
       <div className="drill-footer">
         <div className="drill-footer-nav">
-          <span className="back-btn" onClick={() => navigate(`/category?mode=${mode}`)}>
-            ← Back to categories
+          <span className="back-btn" onClick={() => navigate(`/modes?category=${selected}`)}>
+            ← Back to modes
           </span>
           <span className="skip-btn" onClick={handleSkip}>
             Skip question →
@@ -206,10 +207,11 @@ function App() {
       <NavRail />
       <main className="app-main">
         <Routes>
-          <Route path="/progress" element={<ProgressPage />} />
-          <Route path="/" element={<ModeSelect />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/category" element={<CategorySelect />} />
+          <Route path="/modes" element={<ModeSelect />} />
           <Route path="/drill" element={<DrillScreen />} />
+          <Route path="/progress" element={<ProgressPage />} />
         </Routes>
       </main>
     </div>

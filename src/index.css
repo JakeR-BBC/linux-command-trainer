@@ -659,6 +659,12 @@ h1 {
 .results-btn.yes:hover { border-color: #28c840; }
 .results-btn.no:hover  { border-color: #ff5f57; }
 
+.key-hint {
+  color: #555;
+  font-size: 0.75rem;
+  margin-left: 0.3rem;
+}
+
 /* ============================================================
    PROGRESS PAGE
    ============================================================ */

@@ -29,6 +29,7 @@ Seeking advice on best place to host a URL.
 Adding to personal GitHub and deploying to Netlify is a fallback. 
 
 ### Potential future features
+- Keyboard navigation throughout the app (e.g. number keys for recognition answers, arrow keys for grids)
 - Hint system (currently decided against — undermines satisfaction)
 - Guided journey A/B option for experienced users who want freedom of mode access
 - Leaderboard (requires user accounts)

@@ -14,7 +14,6 @@ import ProgressPage from './components/ProgressPage'
 import Library from './components/Library'
 import Landing from './components/Landing'
 import { saveResult } from './utils/results'
-import { incrementCorrect } from './utils/progress'
 
 function DrillScreen() {
   const navigate = useNavigate()
@@ -97,8 +96,6 @@ function DrillScreen() {
       if (!command.mac_compatible) {
         setShowMacPopup(true)
       }
-
-      incrementCorrect(command.id)
 
       macTimeoutRef.current = setTimeout(() => {
         const next = nextCommand(command.id, updatedSeen)

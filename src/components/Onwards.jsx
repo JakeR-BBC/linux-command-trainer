@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import commands from '../commands.json'
 import { getBestResult } from '../utils/results'
 import { isModeUnlocked } from '../utils/unlocks'
@@ -36,6 +37,28 @@ function Onwards() {
   const lockedRemaining = remainingCategories.filter(cat => !isModeUnlocked(mode, cat, commands))
   const nextModeUnlocked = nextMode && isModeUnlocked(nextMode, category, commands)
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      // Number keys navigate to unlocked remaining categories
+      const index = parseInt(e.key) - 1
+      if (index >= 0 && index < unlockedRemaining.length) {
+        navigate(`/drill?mode=${mode}&category=${unlockedRemaining[index]}`)
+        return
+      }
+      // Enter navigates to next mode if unlocked
+      if (e.key === 'Enter' && nextModeUnlocked) {
+        navigate(`/drill?mode=${nextMode}&category=${category}`)
+        return
+      }
+      // Escape goes back to categories
+      if (e.key === 'Escape') {
+        navigate('/category')
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [unlockedRemaining, nextModeUnlocked])
+
   return (
     <div className="onwards">
       <h1>Linux Command Trainer</h1>
@@ -50,12 +73,13 @@ function Onwards() {
             You haven't tried these categories in {capitalise(mode)} yet:
           </p>
           <div className="onwards-grid">
-            {unlockedRemaining.map(cat => (
+            {unlockedRemaining.map((cat, index) => (
               <button
                 key={cat}
                 className="onwards-btn"
                 onClick={() => navigate(`/drill?mode=${mode}&category=${cat}`)}
               >
+                <span className="option-number">{index + 1}</span>
                 {capitalise(cat)}
               </button>
             ))}
@@ -84,7 +108,7 @@ function Onwards() {
                 className="onwards-btn primary"
                 onClick={() => navigate(`/drill?mode=${nextMode}&category=${category}`)}
               >
-                Start {capitalise(nextMode)} →
+                Start {capitalise(nextMode)} → <span className="key-hint">↵ Enter</span>
               </button>
             </>
           ) : (
@@ -102,7 +126,7 @@ function Onwards() {
 
       <div className="onwards-footer">
         <span className="back-btn" onClick={() => navigate('/category')}>
-          ← All categories
+          ← All categories <span className="key-hint">Esc</span>
         </span>
       </div>
     </div>

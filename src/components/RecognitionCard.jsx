@@ -11,7 +11,7 @@ function shuffle(arr) {
   return arr.sort(() => Math.random() - 0.5)
 }
 
-function RecognitionCard({ command, pool, onSubmit }) {
+function RecognitionCard({ command, pool, onSubmit, disabled }) {
   const [options, setOptions] = useState([])
   const [selected, setSelected] = useState(null)
 
@@ -21,6 +21,18 @@ function RecognitionCard({ command, pool, onSubmit }) {
     setOptions(all)
     setSelected(null)
   }, [command])
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (selected || disabled) return
+      const index = parseInt(e.key) - 1
+      if (index >= 0 && index < options.length) {
+        handleSelect(options[index])
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [options, selected, disabled])
 
   function handleSelect(option) {
     if (selected) return
@@ -39,12 +51,13 @@ function RecognitionCard({ command, pool, onSubmit }) {
   return (
     <div className="recognition-card">
       <div className="options-grid">
-        {options.map(option => (
+        {options.map((option, index) => (
           <button
             key={option.id}
             className={getButtonClass(option)}
             onClick={() => handleSelect(option)}
           >
+            <span className="option-number">{index + 1}</span>
             {option.command}
           </button>
         ))}

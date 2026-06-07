@@ -192,7 +192,12 @@ function DrillScreen() {
         }}
       />
       {mode === 'recognition'
-        ? <RecognitionCard command={command} pool={getActivePool()} onSubmit={handleSubmit} />
+        ? <RecognitionCard
+          command={command}
+          pool={getActivePool()}
+          onSubmit={handleSubmit}
+          disabled={sessionComplete}
+        />
         : mode === 'realism' || mode === 'mastery'
           ? <ChallengeCard
             challenge={command.challenges?.find(c => c.mode === mode)}

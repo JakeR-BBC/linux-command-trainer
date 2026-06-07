@@ -895,3 +895,95 @@ h1 {
   color: #888;
   font-size: 0.85rem;
 }
+
+/* ============================================================
+   ONWARDS
+   ============================================================ */
+
+.onwards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.onwards-title {
+  font-size: 1.5rem;
+  color: #f0f0f0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.onwards-section {
+  background-color: #0d1117;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.onwards-section-title {
+  color: #28c840;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.onwards-section-body {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.onwards-section-body.muted {
+  color: #555;
+}
+
+.onwards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.onwards-btn {
+  background-color: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #f0f0f0;
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.onwards-btn:hover {
+  border-color: #28c840;
+  background-color: #111;
+}
+
+.onwards-btn.primary {
+  border-color: #28c840;
+  color: #28c840;
+}
+
+.onwards-btn.primary:hover {
+  background-color: rgba(40, 200, 64, 0.1);
+}
+
+.onwards-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+}
+
+.onwards-btn.locked {
+  opacity: 0.4;
+  cursor: default;
+  border-color: #222;
+  color: #555;
+}

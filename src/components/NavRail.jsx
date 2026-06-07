@@ -66,11 +66,11 @@ function NavRail() {
         {mode && category && (
           <span className="nav-link active">
             Drill
-            {current && total && location.pathname.includes('/drill') && (
+            {(current && total && location.pathname.includes('/drill')) || location.pathname.includes('/onwards') ? (
               <span className="nav-meta">
-                {complete === 'true' ? 'Completed' : `In progress (${current}/${total})`}
+                {complete === 'true' || location.pathname.includes('/onwards') ? 'Completed' : `In progress (${current}/${total})`}
               </span>
-            )}
+            ) : null}
           </span>
         )}
         <span

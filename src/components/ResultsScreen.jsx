@@ -10,7 +10,7 @@ function capitalise(str) {
 //   const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0
 //   const best = getBestResult(mode, category)
 
-function ResultsScreen({ mode, category, correct, incorrect, skipped, newBest, onRetry, onBack }) {
+function ResultsScreen({ mode, category, correct, incorrect, skipped, newBest, onRetry, onContinue }) {
     console.log('ResultsScreen rendering', { mode, category, correct, incorrect, skipped })
     const total = correct + incorrect + skipped
     const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0
@@ -52,8 +52,8 @@ function ResultsScreen({ mode, category, correct, incorrect, skipped, newBest, o
                     <button className="results-btn yes" onClick={onRetry}>
                         Retry
                     </button>
-                    <button className="results-btn no" onClick={onBack}>
-                        Back to modes
+                    <button className="results-btn yes" onClick={onContinue}>
+                        Continue →
                     </button>
                 </div>
             </div>

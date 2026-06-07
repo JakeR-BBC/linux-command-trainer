@@ -11,6 +11,7 @@ import MacBadge from './components/MacBadge'
 import ChallengeCard from './components/ChallengeCard'
 import ResultsScreen from './components/ResultsScreen'
 import ProgressPage from './components/ProgressPage'
+import Onwards from './components/Onwards'
 import Library from './components/Library'
 import Landing from './components/Landing'
 import { saveResult } from './utils/results'
@@ -147,7 +148,7 @@ function DrillScreen() {
   }
 
   if (sessionComplete && finalResultRef.current) {
-    const { correct: fc, incorrect: fi, skipped: fs } = finalResultRef.current
+    const { correct: fc, incorrect: fi, skipped: fs, accuracy } = finalResultRef.current
     return (
       <ResultsScreen
         mode={mode}
@@ -156,11 +157,8 @@ function DrillScreen() {
         incorrect={fi}
         skipped={fs}
         newBest={newBest}
-        onRetry={() => {
-          console.log('retry clicked, navigating to:', `/drill?mode=${mode}&category=${selected}&t=${Date.now()}`)
-          navigate(`/drill?mode=${mode}&category=${selected}&t=${Date.now()}`)
-        }}
-        onBack={() => navigate(`/modes?category=${selected}`)}
+        onRetry={() => navigate(`/drill?mode=${mode}&category=${selected}&t=${Date.now()}`)}
+        onContinue={() => navigate(`/onwards?mode=${mode}&category=${selected}&score=${accuracy}`)}
       />
     )
   }
@@ -238,6 +236,7 @@ function App() {
           <Route path="/drill" element={<DrillScreenWrapper />} />
           <Route path="/progress" element={<ProgressPage />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/onwards" element={<Onwards />} />
         </Routes>
       </main>
     </div>

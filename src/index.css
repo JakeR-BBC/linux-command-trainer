@@ -792,6 +792,11 @@ h1 {
   border-color: #f0f0f0;
 }
 
+.progress-cell.attempted.amber {
+  color: #febc2e;
+  border-color: #febc2e;
+}
+
 /* ============================================================
    LIBRARY
    ============================================================ */

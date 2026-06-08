@@ -7,7 +7,6 @@ import { isModeUnlocked, isAllUnlocked } from '../utils/unlocks'
 const modes = ['recognition', 'recall', 'scenario', 'realism', 'mastery']
 const categories = [...new Set(commands.map(c => c.category)), 'all']
 
-
 function capitalise(str) {
   if (!str) return ''
   if (str === 'all') return 'All Commands'
@@ -37,6 +36,21 @@ function ProgressPage() {
     return `${result.correct}/${total}`
   }
 
+  function getCellClass(mode, category, rowIndex, colIndex) {
+    const unlocked = category === 'all'
+      ? isAllUnlocked(mode, commands)
+      : isModeUnlocked(mode, category, commands)
+
+    const focused = focusedRow === rowIndex && focusedCol === colIndex ? 'keyboard-focused' : ''
+
+    if (!unlocked) return `progress-cell progress-locked ${focused}`
+
+    const result = getBestResult(mode, category)
+    if (!result) return `progress-cell unattempted ${focused}`
+    if (result.accuracy >= 80) return `progress-cell attempted ${focused}`
+    return `progress-cell attempted amber ${focused}`
+  }
+
   function handleCellClick(mode, category) {
     const unlocked = category === 'all'
       ? isAllUnlocked(mode, commands)
@@ -45,15 +59,8 @@ function ProgressPage() {
     setConfirmDrill({ mode, category })
   }
 
-  function isUnlocked(mode, category) {
-    return category === 'all'
-      ? isAllUnlocked(mode, commands)
-      : isModeUnlocked(mode, category, commands)
-  }
-
   useEffect(() => {
     function handleKeyDown(e) {
-
       if (confirmDrill) {
         if (e.key === 'y' || e.key === 'Y') {
           navigate(`/drill?mode=${confirmDrill.mode}&category=${confirmDrill.category}`)
@@ -133,8 +140,7 @@ function ProgressPage() {
                 {modes.map((mode, colIndex) => (
                   <td key={mode}>
                     <span
-                      className={`progress-cell ${getBestResult(mode, category) ? 'attempted' : 'unattempted'} ${isUnlocked(mode, category) ? '' : 'progress-locked'
-                        } ${focusedRow === rowIndex && focusedCol === colIndex ? 'keyboard-focused' : ''}`}
+                      className={getCellClass(mode, category, rowIndex, colIndex)}
                       onClick={() => handleCellClick(mode, category)}
                     >
                       {getCellContent(mode, category)}

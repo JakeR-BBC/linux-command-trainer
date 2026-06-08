@@ -25,28 +25,41 @@ function Library() {
   }
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.focus()
-    }
+    if (containerRef.current) containerRef.current.focus()
   }, [])
+
+  useEffect(() => {
+    if (focusedIndex === null) return
+    const items = document.querySelectorAll('.library-item')
+    if (items[focusedIndex]) {
+      items[focusedIndex].scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [focusedIndex])
 
   useEffect(() => {
     function handleKeyDown(e) {
       if (!['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Backspace', 'Tab'].includes(e.key)) return
-      e.preventDefault()
 
       if (e.key === 'ArrowDown') {
-        setFocusedIndex(prev => {
-          const next = prev === null ? 0 : Math.min(prev + 1, filtered.length - 1)
-          return next
-        })
+        if (focusedIndex === null) {
+          e.preventDefault()
+          setFocusedIndex(0)
+          return
+        }
+        e.preventDefault()
+        setFocusedIndex(prev => Math.min(prev + 1, filtered.length - 1))
+        return
       }
+
       if (e.key === 'ArrowUp') {
-        setFocusedIndex(prev => {
-          if (prev === null) return 0
-          return Math.max(prev - 1, 0)
-        })
+        if (focusedIndex === null) return
+        e.preventDefault()
+        setFocusedIndex(prev => Math.max(prev - 1, 0))
+        return
       }
+
+      e.preventDefault()
+
       if (e.key === 'Enter' && focusedIndex !== null) {
         toggleExpand(filtered[focusedIndex].id)
       }

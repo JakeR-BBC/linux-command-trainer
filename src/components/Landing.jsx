@@ -13,7 +13,7 @@ function Landing() {
     }, [])
 
     return (
-        <div className="landing" tabIndex={-1} style={{ outline: 'none' }}>
+        <div className="landing">
             <div className="landing-header">
                 <span className="nav-logo-mark">&gt;_</span>
                 <h1>Linux Command Trainer</h1>

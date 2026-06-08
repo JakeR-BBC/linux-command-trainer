@@ -7,6 +7,7 @@ function CategorySelect() {
   const categories = [...new Set(commands.map(c => c.category))]
   const allItems = [...categories, 'all']
   const [focusedIndex, setFocusedIndex] = useState(null)
+  const [homeButtonFocused, setHomeButtonFocused] = useState(false)
   const [keyboardNav, setKeyboardNav] = useState(false)
   const gridRef = useRef(null)
 
@@ -61,7 +62,7 @@ function CategorySelect() {
     if (currentRowIndex === -1) return current
 
     if (direction === 'down') {
-      if (currentRowIndex >= rows.length - 1) return current
+      if (currentRowIndex >= rows.length - 1) return null
       const nextRow = rows[currentRowIndex + 1]
       const ratio = posInRow / rows[currentRowIndex].length
       const nextPos = Math.floor(ratio * nextRow.length)
@@ -79,6 +80,8 @@ function CategorySelect() {
     return current
   }
 
+  const isOnAllRow = focusedIndex === allItems.length - 1
+
   useEffect(() => {
     function handleKeyDown(e) {
       if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
@@ -88,39 +91,61 @@ function CategorySelect() {
       }
 
       if (e.key === 'ArrowRight') {
+        if (homeButtonFocused) return
         setFocusedIndex(prev => {
           const current = prev === null ? 0 : prev
           return Math.min(current + 1, allItems.length - 1)
         })
       }
+
       if (e.key === 'ArrowLeft') {
+        if (homeButtonFocused) return
         setFocusedIndex(prev => {
           const current = prev === null ? 0 : prev
           return Math.max(current - 1, 0)
         })
       }
+
       if (e.key === 'ArrowDown') {
+        if (homeButtonFocused) return
+        if (isOnAllRow) {
+          setFocusedIndex(null)
+          setHomeButtonFocused(true)
+          return
+        }
         setFocusedIndex(prev => {
           const current = prev === null ? 0 : prev
-          return getNextIndex(current, 'down')
+          const next = getNextIndex(current, 'down')
+          return next === null ? allItems.length - 1 : next
         })
       }
+
       if (e.key === 'ArrowUp') {
+        if (homeButtonFocused) {
+          setHomeButtonFocused(false)
+          setFocusedIndex(allItems.length - 1)
+          return
+        }
         setFocusedIndex(prev => {
           const current = prev === null ? 0 : prev
           return getNextIndex(current, 'up')
         })
       }
-      if (e.key === 'Enter' && focusedIndex !== null) {
-        handleNavigate(allItems[focusedIndex])
+
+      if (e.key === 'Enter') {
+        if (homeButtonFocused) { navigate('/'); return }
+        if (focusedIndex !== null) handleNavigate(allItems[focusedIndex])
       }
+
       if (e.key === 'Escape') {
+        if (homeButtonFocused) { setHomeButtonFocused(false); return }
         navigate('/')
       }
     }
 
     function handleMouseMove() {
       setFocusedIndex(null)
+      setHomeButtonFocused(false)
       setKeyboardNav(false)
       document.body.classList.remove('keyboard-nav-active')
     }
@@ -132,7 +157,7 @@ function CategorySelect() {
       window.removeEventListener('mousemove', handleMouseMove)
       document.body.classList.remove('keyboard-nav-active')
     }
-  }, [focusedIndex])
+  }, [focusedIndex, homeButtonFocused, isOnAllRow])
 
   return (
     <div className={`category-select ${keyboardNav ? 'keyboard-nav' : ''}`}>
@@ -142,7 +167,7 @@ function CategorySelect() {
         {categories.map((category, index) => (
           <button
             key={category}
-            className={`category-btn ${focusedIndex === index ? 'keyboard-focused' : ''}`}
+            className={`category-btn ${focusedIndex === index && !homeButtonFocused ? 'keyboard-focused' : ''}`}
             onClick={() => handleNavigate(category)}
           >
             {capitalise(category)}
@@ -150,7 +175,7 @@ function CategorySelect() {
           </button>
         ))}
         <button
-          className={`category-btn all ${focusedIndex === allItems.length - 1 ? 'keyboard-focused' : ''}`}
+          className={`category-btn all ${focusedIndex === allItems.length - 1 && !homeButtonFocused ? 'keyboard-focused' : ''}`}
           onClick={() => handleNavigate('all')}
         >
           All Commands
@@ -158,7 +183,10 @@ function CategorySelect() {
         </button>
       </div>
       <div className="drill-footer">
-        <span className="back-btn" onClick={() => navigate('/')}>
+        <span
+          className={`back-btn ${homeButtonFocused ? 'keyboard-focused' : ''}`}
+          onClick={() => navigate('/')}
+        >
           ← Home <span className="key-hint">Esc</span>
         </span>
       </div>

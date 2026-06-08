@@ -25,8 +25,6 @@ function NavRail() {
   const current = params.get('current')
   const total = params.get('total')
   const complete = params.get('complete')
-  const showCategory = category && ['/modes', '/drill', '/onwards'].includes(location.pathname)
-  const showMode = mode && ['/drill', '/onwards'].includes(location.pathname)
 
   const navItems = [
     { label: 'Home', path: '/' },
@@ -40,9 +38,10 @@ function NavRail() {
 
   function dismissNav() {
     setFocusedIndex(null)
-    if (document.activeElement) {
-      document.activeElement.blur()
-    }
+    const landing = document.querySelector('.landing')
+    const main = document.querySelector('main')
+    if (landing) landing.focus()
+    else if (main) main.focus()
   }
 
   useEffect(() => {
@@ -111,15 +110,11 @@ function NavRail() {
             onKeyDown={(e) => handleNavKeyDown(e, index)}
           >
             {item.label}
-            {item.label === 'Categories' && category && ['/modes', '/drill', '/onwards'].includes(location.pathname) && (
-              <span className="nav-meta">{capitalise(category)}</span>
-            )}
-            {item.label === 'Mode' && mode && ['/drill', '/onwards'].includes(location.pathname) && (
-              <span className="nav-meta">{capitalise(mode)}</span>
-            )}
+            {item.label === 'Categories' && category && <span className="nav-meta">{capitalise(category)}</span>}
+            {item.label === 'Mode' && mode && <span className="nav-meta">{capitalise(mode)}</span>}
           </span>
         ))}
-        {mode && category && ['/drill', '/onwards'].includes(location.pathname) && (
+        {mode && category && (
           <span className="nav-link active">
             Drill
             {(current && total && location.pathname.includes('/drill')) || location.pathname.includes('/onwards') ? (

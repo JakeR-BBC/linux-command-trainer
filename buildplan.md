@@ -35,3 +35,4 @@ Adding to personal GitHub and deploying to Netlify is a fallback.
 - Leaderboard (requires user accounts)
 - Additional command sets beyond the core 50, this definitely will happen for personal learning. 
 - Mobile responsive layout
+- Accessibility mode > everything is more visible 

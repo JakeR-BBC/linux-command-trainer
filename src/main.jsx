@@ -9,8 +9,13 @@ import Passkey, { isUnlocked } from './components/Passkey.jsx'
 function Root() {
   const [unlocked, setUnlocked] = useState(isUnlocked())
 
+  function handleUnlock() {
+    setUnlocked(true)
+    window.location.href = '/linux-command-trainer/'
+  }
+
   if (!unlocked) {
-    return <Passkey onUnlock={() => setUnlocked(true)} />
+    return <Passkey onUnlock={handleUnlock} />
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import commands from '../commands.json'
 import { getBestResult } from '../utils/results'
 import { isModeUnlocked } from '../utils/unlocks'
@@ -19,6 +19,7 @@ function Onwards() {
   const mode = params.get('mode')
   const category = params.get('category')
   const score = parseInt(params.get('score'))
+  const [backButtonFocused, setBackButtonFocused] = useState(false)
 
   const categories = [...new Set(commands.map(c => c.category))]
   const modeIndex = MODES.indexOf(mode)
@@ -39,25 +40,45 @@ function Onwards() {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      // Number keys navigate to unlocked remaining categories
+      if (backButtonFocused) {
+        if (e.key === 'Enter') { navigate('/category'); return }
+        if (e.key === 'ArrowUp') { setBackButtonFocused(false); return }
+        if (e.key === 'Escape') { setBackButtonFocused(false); return }
+        return
+      }
+
       const index = parseInt(e.key) - 1
       if (index >= 0 && index < unlockedRemaining.length) {
         navigate(`/drill?mode=${mode}&category=${unlockedRemaining[index]}`)
         return
       }
-      // Enter navigates to next mode if unlocked
+
       if (e.key === 'Enter' && nextModeUnlocked) {
         navigate(`/drill?mode=${nextMode}&category=${category}`)
         return
       }
-      // Escape goes back to categories
+
+      if (e.key === 'ArrowDown') {
+        setBackButtonFocused(true)
+        return
+      }
+
       if (e.key === 'Escape') {
         navigate('/category')
       }
     }
+
+    function handleMouseMove() {
+      setBackButtonFocused(false)
+    }
+
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [unlockedRemaining, nextModeUnlocked])
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [unlockedRemaining, nextModeUnlocked, backButtonFocused])
 
   return (
     <div className="onwards">
@@ -125,7 +146,10 @@ function Onwards() {
       </div>
 
       <div className="onwards-footer">
-        <span className="back-btn" onClick={() => navigate('/category')}>
+        <span
+          className={`back-btn ${backButtonFocused ? 'keyboard-focused' : ''}`}
+          onClick={() => navigate('/category')}
+        >
           ← All categories <span className="key-hint">Esc</span>
         </span>
       </div>

@@ -62,6 +62,18 @@ function DrillScreen() {
     window.dispatchEvent(new Event('locationchange'))
   }, [seen])
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') navigate(`/modes?category=${selected}`)
+      if (e.key === 'Tab') {
+        e.preventDefault()
+        handleSkip()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selected, seen, correct, incorrect, skipped, sessionComplete])
+
   function nextCommand(currentId, seenOverride) {
     const pool = getActivePool()
     const seenSet = seenOverride || seen
@@ -213,10 +225,10 @@ function DrillScreen() {
       <div className="drill-footer">
         <div className="drill-footer-nav">
           <span className="back-btn" onClick={() => navigate(`/modes?category=${selected}`)}>
-            ← Back to modes
+            ← Back to modes <span className="key-hint">Esc</span>
           </span>
           <span className="skip-btn" onClick={handleSkip}>
-            Skip question →
+            Skip question → <span className="key-hint">Tab</span>
           </span>
         </div>
       </div>

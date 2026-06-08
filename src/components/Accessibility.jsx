@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 const shortcuts = [
-  { screen: 'Anywhere', keys: '/', action: 'Toggle nav rail focus' },
   { screen: 'Landing', keys: '↵ Enter', action: 'Start' },
   { screen: 'Accessibility (This page)', keys: 'Esc', action: 'Back to home' },
   { screen: 'Categories', keys: '↑↓←→', action: 'Navigate' },

@@ -753,6 +753,12 @@ h1 {
   border-color: #f0f0f0;
 }
 
+.progress-cell.keyboard-focused {
+  background-color: #1a1a2e;
+  color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+
 /* ============================================================
    LIBRARY
    ============================================================ */

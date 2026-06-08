@@ -1070,9 +1070,14 @@ h1 {
   background-color: #0d1117;
 }
 
+.accessibility-table tr {
+  line-height: 1.8;
+}
+
 .accessibility-table td {
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1rem;
   border-bottom: 1px solid #111;
+  vertical-align: middle;
 }
 
 .accessibility-screen {
@@ -1092,4 +1097,218 @@ h1 {
 
 .accessibility-action {
   color: #f0f0f0;
+}
+
+/* focus bank - results screen */
+.results-focus {
+  border-top: 1px solid #222;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.results-focus-title {
+  color: #888;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.results-focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.results-focus-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0.8rem;
+  background-color: #1a1a2e;
+  border-radius: 4px;
+}
+
+.results-focus-cmd {
+  color: #28c840;
+  font-family: monospace;
+  font-size: 0.9rem;
+  min-width: 80px;
+}
+
+.results-focus-desc {
+  color: #888;
+  font-size: 0.8rem;
+  flex: 1;
+}
+
+.results-focus-btn {
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #888;
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.results-focus-btn:hover {
+  border-color: #ff5f57;
+  color: #ff5f57;
+}
+
+.results-focus-btn.added {
+  border-color: #28c840;
+  color: #28c840;
+  cursor: default;
+}
+
+.results-focus-all {
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #888;
+  font-family: monospace;
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  align-self: flex-start;
+}
+
+.results-focus-all:hover {
+  border-color: #ff5f57;
+  color: #ff5f57;
+}
+
+/* ============================================================
+   focus BANK
+   ============================================================ */
+
+.focus-page {
+  width: 100%;
+}
+
+.focus-empty {
+  background-color: #0d1117;
+  border: 1px solid #222;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.focus-empty p {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.focus-item {
+  background-color: #0d1117;
+  border: 1px solid #222;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.focus-item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.focus-cmd {
+  color: #28c840;
+  font-family: monospace;
+  font-size: 0.95rem;
+  min-width: 80px;
+}
+
+.focus-desc {
+  color: #888;
+  font-size: 0.85rem;
+  flex: 1;
+}
+
+.focus-category {
+  color: #555;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.focus-remove-btn {
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #888;
+  font-family: monospace;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.focus-remove-btn:hover {
+  border-color: #ff5f57;
+  color: #ff5f57;
+}
+
+.focus-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.focus-clear-btn {
+  background: transparent;
+  border: none;
+  color: #555;
+  font-family: monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.focus-clear-btn:hover {
+  color: #ff5f57;
+}
+
+.focus-item.keyboard-focused {
+  border-color: #333;
+  border-left: 2px solid #28c840;
+}
+
+.focus-confirm {
+  background-color: #0d1117;
+  border: 1px solid #febc2e;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.focus-confirm-actions {
+  display: flex;
+  gap: 1rem;
 }

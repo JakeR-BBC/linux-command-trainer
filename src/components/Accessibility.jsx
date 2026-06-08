@@ -27,6 +27,11 @@ const shortcuts = [
   { screen: 'Progress', keys: '↑↓←→', action: 'Navigate grid' },
   { screen: 'Progress', keys: '↵ Enter', action: 'Go to drill' },
   { screen: 'Progress', keys: 'Esc', action: 'Back' },
+  { screen: 'Focus List', keys: '↑↓', action: 'Navigate commands' },
+  { screen: 'Focus List', keys: '⌫ Backspace', action: 'Remove item' },
+  { screen: 'Focus List', keys: 'Y / N', action: 'Are you sure?' },
+  { screen: 'Focus List', keys: '↵ Enter', action: 'Drill focus list' },
+  { screen: 'Focus List', keys: 'Esc', action: 'Deselect item or back to home' },
 ]
 
 function Accessibility() {

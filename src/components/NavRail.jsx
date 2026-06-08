@@ -85,6 +85,12 @@ function NavRail() {
         >
           Accessibility
         </span>
+        <span
+          className={`nav-link ${location.pathname === '/focus' ? 'active' : ''}`}
+          onClick={() => navigate('/focus')}
+        >
+          Focus List
+        </span>
       </div>
     </nav>
   )

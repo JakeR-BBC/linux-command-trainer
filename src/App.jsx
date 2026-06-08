@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import DrillCard from './components/DrillCard'
 import CategorySelect from './components/CategorySelect'
 import ModeSelect from './components/ModeSelect'
@@ -14,8 +13,10 @@ import ProgressPage from './components/ProgressPage'
 import Onwards from './components/Onwards'
 import Library from './components/Library'
 import Landing from './components/Landing'
-import { saveResult } from './utils/results'
 import Accessibility from './components/Accessibility'
+import FocusList from './components/FocusList'
+import { saveResult } from './utils/results'
+import { getFocusList } from './utils/focusList'
 
 function DrillScreen() {
   const navigate = useNavigate()
@@ -25,6 +26,15 @@ function DrillScreen() {
   const isAll = selected === 'all'
 
   function getActivePool() {
+    if (selected === 'focus') {
+      const list = getFocusList()
+      const base = commands.filter(c => list.includes(c.id))
+      if (mode === 'realism' || mode === 'mastery') {
+        return base.filter(cmd => cmd.challenges?.some(ch => ch.mode === mode))
+      }
+      return base
+    }
+
     const base = isAll
       ? commands
       : commands.filter(c => c.category === selected)
@@ -52,6 +62,7 @@ function DrillScreen() {
   const [newBest, setNewBest] = useState(false)
   const [showMacPopup, setShowMacPopup] = useState(false)
   const finalResultRef = useRef(null)
+  const [incorrectIds, setIncorrectIds] = useState([])
 
   useEffect(() => {
     const total = getActivePool().length
@@ -130,6 +141,7 @@ function DrillScreen() {
         setSeen(updatedSeen)
         const newIncorrect = incorrect + 1
         setIncorrect(newIncorrect)
+        setIncorrectIds(prev => [...new Set([...prev, command.id])])
 
         setTimeout(() => {
           const next = nextCommand(command.id, updatedSeen)
@@ -170,8 +182,15 @@ function DrillScreen() {
         incorrect={fi}
         skipped={fs}
         newBest={newBest}
+        incorrectIds={incorrectIds}
         onRetry={() => navigate(`/drill?mode=${mode}&category=${selected}&t=${Date.now()}`)}
-        onContinue={() => navigate(`/onwards?mode=${mode}&category=${selected}&score=${accuracy}`)}
+        onContinue={() => {
+          if (selected === 'focus') {
+            navigate('/focus')
+          } else {
+            navigate(`/onwards?mode=${mode}&category=${selected}&score=${accuracy}&complete=true`)
+          }
+        }}
       />
     )
   }
@@ -256,6 +275,7 @@ function App() {
           <Route path="/library" element={<Library />} />
           <Route path="/onwards" element={<Onwards />} />
           <Route path="/accessibility" element={<Accessibility />} />
+          <Route path="/focus" element={<FocusList />} />
         </Routes>
       </main>
     </div>

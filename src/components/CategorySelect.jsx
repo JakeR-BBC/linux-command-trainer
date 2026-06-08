@@ -7,6 +7,7 @@ function CategorySelect() {
   const categories = [...new Set(commands.map(c => c.category))]
   const allItems = [...categories, 'all']
   const [focusedIndex, setFocusedIndex] = useState(null)
+  const [keyboardNav, setKeyboardNav] = useState(false)
   const gridRef = useRef(null)
 
   function capitalise(str) {
@@ -82,6 +83,8 @@ function CategorySelect() {
     function handleKeyDown(e) {
       if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(e.key)) {
         e.preventDefault()
+        setKeyboardNav(true)
+        document.body.classList.add('keyboard-nav-active')
       }
 
       if (e.key === 'ArrowRight') {
@@ -118,6 +121,8 @@ function CategorySelect() {
 
     function handleMouseMove() {
       setFocusedIndex(null)
+      setKeyboardNav(false)
+      document.body.classList.remove('keyboard-nav-active')
     }
 
     window.addEventListener('keydown', handleKeyDown)
@@ -125,11 +130,12 @@ function CategorySelect() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('mousemove', handleMouseMove)
+      document.body.classList.remove('keyboard-nav-active')
     }
   }, [focusedIndex])
 
   return (
-    <div className="category-select">
+    <div className={`category-select ${keyboardNav ? 'keyboard-nav' : ''}`}>
       <h1>Linux Command Trainer</h1>
       <p className="subtitle">Pick a category to drill — <span className="key-hint">arrow keys to navigate, ↵ to select, Esc to go back</span></p>
       <div className="category-grid" ref={gridRef}>

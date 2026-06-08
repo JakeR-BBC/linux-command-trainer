@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { isModeUnlocked, isAllUnlocked } from '../utils/unlocks'
 import commands from '../commands.json'
 
@@ -16,6 +16,9 @@ function ModeSelect() {
   const params = new URLSearchParams(window.location.search)
   const category = params.get('category')
   const isAll = category === 'all'
+  const [focusedIndex, setFocusedIndex] = useState(null)
+  const [keyboardNav, setKeyboardNav] = useState(false)
+  const gridRef = useRef(null)
 
   function unlocked(modeId) {
     if (isAll) return isAllUnlocked(modeId, commands)
@@ -29,32 +32,60 @@ function ModeSelect() {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      const index = parseInt(e.key) - 1
-      if (index >= 0 && index < ALL_MODES.length) {
-        handleClick(ALL_MODES[index].id)
+      if (['ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(e.key)) {
+        e.preventDefault()
+        setKeyboardNav(true)
+        document.body.classList.add('keyboard-nav-active')
       }
-      if (e.key === 'Escape') navigate('/category')
+
+      if (e.key === 'ArrowDown') {
+        setFocusedIndex(prev => {
+          const next = prev === null ? 0 : prev + 1
+          return Math.min(next, ALL_MODES.length - 1)
+        })
+      }
+      if (e.key === 'ArrowUp') {
+        setFocusedIndex(prev => {
+          const next = prev === null ? ALL_MODES.length - 1 : prev - 1
+          return Math.max(next, 0)
+        })
+      }
+      if (e.key === 'Enter' && focusedIndex !== null) {
+        handleClick(ALL_MODES[focusedIndex].id)
+      }
+      if (e.key === 'Escape') {
+        navigate('/category')
+      }
     }
+
+    function handleMouseMove() {
+      setFocusedIndex(null)
+      setKeyboardNav(false)
+      document.body.classList.remove('keyboard-nav-active')
+    }
+
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.body.classList.remove('keyboard-nav-active')
+    }
+  }, [focusedIndex])
 
   return (
-    <div className="category-select">
+    <div className={`category-select ${keyboardNav ? 'keyboard-nav' : ''}`}>
       <h1>Linux Command Trainer</h1>
-      <p className="subtitle">Pick a mode to drill</p>
-      <div className="category-grid">
+      <p className="subtitle">Pick a mode to drill — <span className="key-hint">↑↓ to navigate, ↵ to select, Esc to go back</span></p>
+      <div className="category-grid" ref={gridRef}>
         {ALL_MODES.map((mode, index) => (
           <button
             key={mode.id}
-            className={`category-btn mode-btn ${!unlocked(mode.id) ? 'locked' : ''}`}
+            className={`category-btn mode-btn ${!unlocked(mode.id) ? 'locked' : ''} ${focusedIndex === index ? 'keyboard-focused' : ''}`}
             onClick={() => handleClick(mode.id)}
           >
             <span className="mode-icon">{mode.icon}</span>
-            <span className="mode-name">
-              <span className="option-number">{index + 1}</span>
-              {mode.name}
-            </span>
+            <span className="mode-name">{mode.name}</span>
             <span className="mode-desc">{mode.desc}</span>
             {!unlocked(mode.id) && <span className="mode-lock">🔒</span>}
           </button>

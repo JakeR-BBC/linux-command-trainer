@@ -1,7 +1,16 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 function Landing() {
     const navigate = useNavigate()
+
+    useEffect(() => {
+        function handleKeyDown(e) {
+            if (e.key === 'Enter') navigate('/category')
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [])
 
     return (
         <div className="landing">

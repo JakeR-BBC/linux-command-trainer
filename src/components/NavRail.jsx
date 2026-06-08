@@ -1,10 +1,12 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 function NavRail() {
   const navigate = useNavigate()
   const location = useLocation()
   const [search, setSearch] = useState(location.search)
+  const navRef = useRef(null)
+  const [focusedIndex, setFocusedIndex] = useState(null)
 
   useEffect(() => {
     if (!location.pathname.includes('/drill')) {
@@ -24,45 +26,94 @@ function NavRail() {
   const total = params.get('total')
   const complete = params.get('complete')
 
+  const navItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Progress', path: '/progress' },
+    { label: 'Categories', path: '/category' },
+    ...(category ? [{ label: 'Mode', path: `/modes?category=${category}` }] : []),
+    { label: 'Library', path: '/library' },
+    { label: 'Focus List', path: '/focus' },
+    { label: 'Keyboard', path: '/accessibility' },
+  ]
+
+  function dismissNav() {
+    setFocusedIndex(null)
+    const landing = document.querySelector('.landing')
+    const main = document.querySelector('main')
+    if (landing) landing.focus()
+    else if (main) main.focus()
+  }
+
+  useEffect(() => {
+    function handleGlobalKeyDown(e) {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault()
+        if (focusedIndex !== null) {
+          dismissNav()
+        } else {
+          setFocusedIndex(0)
+          const firstLink = navRef.current?.querySelector('[data-nav-link]')
+          if (firstLink) firstLink.focus()
+        }
+      }
+    }
+    window.addEventListener('keydown', handleGlobalKeyDown)
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown)
+  }, [focusedIndex])
+
+  function handleNavKeyDown(e, index) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      e.stopPropagation()
+      const next = Math.min(index + 1, navItems.length - 1)
+      setFocusedIndex(next)
+      const links = navRef.current?.querySelectorAll('[data-nav-link]')
+      if (links?.[next]) links[next].focus()
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      e.stopPropagation()
+      const prev = Math.max(index - 1, 0)
+      setFocusedIndex(prev)
+      const links = navRef.current?.querySelectorAll('[data-nav-link]')
+      if (links?.[prev]) links[prev].focus()
+    }
+    if (e.key === 'Enter') {
+      e.stopPropagation()
+      navigate(navItems[index].path)
+      dismissNav()
+    }
+    if (e.key === 'Escape') {
+      e.stopPropagation()
+      dismissNav()
+    }
+  }
+
   function capitalise(str) {
     if (!str) return null
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
   return (
-    <nav className="nav-rail">
+    <nav className="nav-rail" ref={navRef}>
       <div className="nav-logo" onClick={() => navigate('/')}>
         <span className="nav-logo-mark">&gt;_</span>
       </div>
       <div className="nav-links">
-        <span
-          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-          onClick={() => navigate('/')}
-        >
-          Home
-        </span>
-        <span
-          className={`nav-link ${location.pathname === '/progress' ? 'active' : ''}`}
-          onClick={() => navigate('/progress')}
-        >
-          Progress
-        </span>
-        <span
-          className={`nav-link ${location.pathname === '/category' ? 'active' : ''}`}
-          onClick={() => navigate('/category')}
-        >
-          Categories
-          {category && <span className="nav-meta">{capitalise(category)}</span>}
-        </span>
-        {category && (
+        {navItems.map((item, index) => (
           <span
-            className={`nav-link ${location.pathname === '/modes' ? 'active' : ''}`}
-            onClick={() => navigate(`/modes?category=${category}`)}
+            key={item.path}
+            data-nav-link
+            tabIndex={focusedIndex !== null ? 0 : -1}
+            className={`nav-link ${location.pathname === item.path.split('?')[0] ? 'active' : ''} ${focusedIndex === index ? 'keyboard-focused' : ''}`}
+            onClick={() => navigate(item.path)}
+            onKeyDown={(e) => handleNavKeyDown(e, index)}
           >
-            Mode
-            {mode && <span className="nav-meta">{capitalise(mode)}</span>}
+            {item.label}
+            {item.label === 'Categories' && category && <span className="nav-meta">{capitalise(category)}</span>}
+            {item.label === 'Mode' && mode && <span className="nav-meta">{capitalise(mode)}</span>}
           </span>
-        )}
+        ))}
         {mode && category && (
           <span className="nav-link active">
             Drill
@@ -73,25 +124,11 @@ function NavRail() {
             ) : null}
           </span>
         )}
-        <span
-          className={`nav-link ${location.pathname === '/library' ? 'active' : ''}`}
-          onClick={() => navigate('/library')}
-        >
-          Library
-        </span>
-        <span
-          className={`nav-link ${location.pathname === '/accessibility' ? 'active' : ''}`}
-          onClick={() => navigate('/accessibility')}
-        >
-          Accessibility
-        </span>
-        <span
-          className={`nav-link ${location.pathname === '/focus' ? 'active' : ''}`}
-          onClick={() => navigate('/focus')}
-        >
-          Focus List
-        </span>
       </div>
+      {focusedIndex !== null
+        ? <p className="nav-hint">↑↓ · ↵ · Esc</p>
+        : <p className="nav-hint">/ — nav</p>
+      }
     </nav>
   )
 }

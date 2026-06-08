@@ -265,7 +265,7 @@ function App() {
   return (
     <div className="app-layout">
       <NavRail />
-      <main className="app-main">
+      <main className="app-main" tabIndex={-1} style={{ outline: 'none' }}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/category" element={<CategorySelect />} />

@@ -139,6 +139,21 @@ h1 {
   font-size: 0.78rem;
 }
 
+.nav-link.keyboard-focused {
+  color: #28c840;
+}
+
+.nav-hint {
+  color: #333;
+  font-size: 0.7rem;
+  margin-top: auto;
+  font-family: monospace;
+}
+
+.nav-link:focus {
+  outline: none;
+}
+
 /* ============================================================
    PASSKEY
    ============================================================ */

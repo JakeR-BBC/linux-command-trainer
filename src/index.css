@@ -1282,8 +1282,8 @@ h1 {
 }
 
 .focus-remove-btn:hover {
-  border-color: #ff5f57;
-  color: #ff5f57;
+  border-color: #28c840;
+  color: #28c840;
 }
 
 .focus-actions {
@@ -1304,7 +1304,7 @@ h1 {
 }
 
 .focus-clear-btn:hover {
-  color: #ff5f57;
+  color: #f0f0f0;
 }
 
 .focus-item.keyboard-focused {
@@ -1326,4 +1326,21 @@ h1 {
 .focus-confirm-actions {
   display: flex;
   gap: 1rem;
+}
+
+.focus-remove-btn.keyboard-focused {
+  border-color: #28c840;
+  color: #28c840;
+}
+
+.landing-cta.keyboard-focused {
+  background-color: #22a835;
+}
+
+.focus-clear-btn.keyboard-focused {
+    color: #f0f0f0;
+}
+
+.back-btn.keyboard-focused {
+  color: #f0f0f0;
 }

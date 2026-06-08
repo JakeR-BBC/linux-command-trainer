@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import commands from '../commands.json'
 
@@ -11,8 +11,10 @@ function capitalise(str) {
 
 function Library() {
   const navigate = useNavigate()
+  const containerRef = useRef(null)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [expanded, setExpanded] = useState(null)
+  const [focusedIndex, setFocusedIndex] = useState(null)
 
   const filtered = selectedCategory === 'all'
     ? commands
@@ -22,10 +24,83 @@ function Library() {
     setExpanded(prev => prev === id ? null : id)
   }
 
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus()
+    }
+  }, [])
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      console.log('key pressed:', e.key)
+      if (!['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Backspace', 'Tab'].includes(e.key)) return
+      e.preventDefault()
+
+      if (e.key === 'ArrowDown') {
+        setFocusedIndex(prev => {
+          const next = prev === null ? 0 : Math.min(prev + 1, filtered.length - 1)
+          console.log('focusedIndex:', next)
+          return next
+        })
+      }
+      if (e.key === 'ArrowUp') {
+        setFocusedIndex(prev => {
+          if (prev === null) return 0
+          return Math.max(prev - 1, 0)
+        })
+      }
+      if (e.key === 'Enter' && focusedIndex !== null) {
+        toggleExpand(filtered[focusedIndex].id)
+      }
+      if (e.key === 'Escape') {
+        if (expanded) {
+          setExpanded(null)
+        } else {
+          navigate('/')
+        }
+      }
+      if (e.key === 'Backspace' && expanded) {
+        setExpanded(null)
+      }
+      if (e.key === 'Tab') {
+        const currentIndex = CATEGORIES.indexOf(selectedCategory)
+        const nextIndex = (currentIndex + 1) % CATEGORIES.length
+        setSelectedCategory(CATEGORIES[nextIndex])
+        setExpanded(null)
+        setFocusedIndex(null)
+      }
+    }
+
+    let lastMouseX = 0
+    let lastMouseY = 0
+
+    function handleMouseMove(e) {
+      const dx = Math.abs(e.clientX - lastMouseX)
+      const dy = Math.abs(e.clientY - lastMouseY)
+      lastMouseX = e.clientX
+      lastMouseY = e.clientY
+      if (dx > 5 || dy > 5) {
+        setFocusedIndex(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('mousemove', handleMouseMove)
+    }
+  }, [focusedIndex, filtered, expanded])
+
   return (
-    <div className="library">
+    <div
+      className="library"
+      ref={containerRef}
+      tabIndex={0}
+      style={{ outline: 'none' }}
+    >
       <h1>Linux Command Trainer</h1>
-      <p className="subtitle">Command Library</p>
+      <p className="subtitle">Command Library — <span className="key-hint">↑↓ navigate · ↵ expand · ⌫ collapse · Tab cycle categories · Esc back</span></p>
       <div className="library-filters">
         {CATEGORIES.map(cat => (
           <button
@@ -34,6 +109,7 @@ function Library() {
             onClick={() => {
               setSelectedCategory(cat)
               setExpanded(null)
+              setFocusedIndex(null)
             }}
           >
             {cat === 'all' ? 'All' : capitalise(cat)}
@@ -41,10 +117,10 @@ function Library() {
         ))}
       </div>
       <div className="library-list">
-        {filtered.map(cmd => (
+        {filtered.map((cmd, index) => (
           <div
             key={cmd.id}
-            className={`library-item ${expanded === cmd.id ? 'open' : ''}`}
+            className={`library-item ${expanded === cmd.id ? 'open' : ''} ${focusedIndex === index ? 'keyboard-focused' : ''}`}
           >
             <div
               className="library-item-header"

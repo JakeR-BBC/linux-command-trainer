@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const shortcuts = [
   { screen: 'Landing', keys: '↵ Enter', action: 'Start' },
+  { screen: 'Accessibility (This page)', keys: 'Esc', action: 'Back to home' },
   { screen: 'Categories', keys: '↑↓←→', action: 'Navigate' },
   { screen: 'Categories', keys: '↵ Enter', action: 'Select' },
   { screen: 'Categories', keys: 'Esc', action: 'Back to home' },
@@ -30,6 +32,14 @@ const shortcuts = [
 function Accessibility() {
   const navigate = useNavigate()
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') navigate('/')
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   return (
     <div className="accessibility-page">
       <h1>Linux Command Trainer</h1>
@@ -56,7 +66,7 @@ function Accessibility() {
       </div>
       <div className="drill-footer">
         <span className="back-btn" onClick={() => navigate('/')}>
-          ← Home
+          ← Home <span className="key-hint">Esc</span>
         </span>
       </div>
     </div>

@@ -315,6 +315,11 @@ h1 {
   cursor: default;
 }
 
+.category-btn.keyboard-focused {
+  border-color: #28c840;
+  background-color: #111;
+}
+
 .count {
   color: #888;
   font-size: 0.85rem;

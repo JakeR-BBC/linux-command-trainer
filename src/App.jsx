@@ -15,6 +15,7 @@ import Onwards from './components/Onwards'
 import Library from './components/Library'
 import Landing from './components/Landing'
 import { saveResult } from './utils/results'
+import Accessibility from './components/Accessibility'
 
 function DrillScreen() {
   const navigate = useNavigate()
@@ -254,6 +255,7 @@ function App() {
           <Route path="/progress" element={<ProgressPage />} />
           <Route path="/library" element={<Library />} />
           <Route path="/onwards" element={<Onwards />} />
+          <Route path="/accessibility" element={<Accessibility />} />
         </Routes>
       </main>
     </div>

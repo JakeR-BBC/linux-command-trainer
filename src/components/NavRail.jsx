@@ -79,6 +79,12 @@ function NavRail() {
         >
           Library
         </span>
+        <span
+          className={`nav-link ${location.pathname === '/accessibility' ? 'active' : ''}`}
+          onClick={() => navigate('/accessibility')}
+        >
+          Accessibility
+        </span>
       </div>
     </nav>
   )

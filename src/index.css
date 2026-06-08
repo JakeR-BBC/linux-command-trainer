@@ -1037,3 +1037,59 @@ h1 {
   border-color: #222;
   color: #555;
 }
+
+/* ============================================================
+   ACCESSIBILITY PAGE
+   ============================================================ */
+
+.accessibility-page {
+  text-align: center;
+}
+
+.accessibility-table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.accessibility-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.accessibility-table th {
+  color: #888;
+  font-weight: normal;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #222;
+}
+
+.accessibility-table tr:hover {
+  background-color: #0d1117;
+}
+
+.accessibility-table td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #111;
+}
+
+.accessibility-screen {
+  color: #888;
+  white-space: nowrap;
+}
+
+.accessibility-keys code {
+  background-color: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #28c840;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.accessibility-action {
+  color: #f0f0f0;
+}

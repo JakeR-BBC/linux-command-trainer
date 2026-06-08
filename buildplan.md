@@ -30,10 +30,7 @@ Seeking advice on best place to host a URL.
 Adding to personal GitHub and deploying to Netlify is a fallback. 
 
 ### Potential future features
-- Hint system (currently decided against — undermines satisfaction)
-- Guided journey A/B option for experienced users who want freedom of mode access
+- (Critical) Full keyboard navigation for nav rail (press `/` to focus, arrow keys to navigate) — complex due to event listener conflicts with page-level keyboard handlers, needs careful architecture
 - Leaderboard (requires user accounts)
 - Additional command sets beyond the core 50, this definitely will happen for personal learning. 
 - Mobile responsive layout
-- Accessibility mode > everything is more visible 
-- Full keyboard navigation for nav rail (press `/` to focus, arrow keys to navigate) — complex due to event listener conflicts with page-level keyboard handlers, needs careful architecture

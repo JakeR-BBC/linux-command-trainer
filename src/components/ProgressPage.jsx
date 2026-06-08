@@ -7,6 +7,7 @@ import { isModeUnlocked, isAllUnlocked } from '../utils/unlocks'
 const modes = ['recognition', 'recall', 'scenario', 'realism', 'mastery']
 const categories = [...new Set(commands.map(c => c.category)), 'all']
 
+
 function capitalise(str) {
   if (!str) return ''
   if (str === 'all') return 'All Commands'
@@ -17,6 +18,7 @@ function ProgressPage() {
   const navigate = useNavigate()
   const [focusedRow, setFocusedRow] = useState(null)
   const [focusedCol, setFocusedCol] = useState(null)
+  const [confirmDrill, setConfirmDrill] = useState(null)
 
   function getTotal(mode, category) {
     const base = category === 'all'
@@ -40,7 +42,7 @@ function ProgressPage() {
       ? isAllUnlocked(mode, commands)
       : isModeUnlocked(mode, category, commands)
     if (!unlocked) return
-    navigate(`/drill?mode=${mode}&category=${category}`)
+    setConfirmDrill({ mode, category })
   }
 
   function isUnlocked(mode, category) {
@@ -51,6 +53,19 @@ function ProgressPage() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+
+      if (confirmDrill) {
+        if (e.key === 'y' || e.key === 'Y') {
+          navigate(`/drill?mode=${confirmDrill.mode}&category=${confirmDrill.category}`)
+          return
+        }
+        if (e.key === 'n' || e.key === 'N' || e.key === 'Escape') {
+          setConfirmDrill(null)
+          return
+        }
+        return
+      }
+
       if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', 'Escape'].includes(e.key)) return
       e.preventDefault()
 
@@ -82,13 +97,26 @@ function ProgressPage() {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [focusedRow, focusedCol])
+  }, [focusedRow, focusedCol, confirmDrill])
 
   return (
     <div className="progress-page">
       <h1>Linux Command Trainer</h1>
       <p className="subtitle">Your best scores — <span className="key-hint">arrow keys to navigate, ↵ to drill, Esc to go back</span></p>
       <div className="progress-table-wrapper">
+        {confirmDrill && (
+          <div className="focus-confirm">
+            <p>Run a <span className="highlight">{capitalise(confirmDrill.category)}</span> drill in <span className="highlight">{capitalise(confirmDrill.mode)}</span> mode?</p>
+            <div className="focus-confirm-actions">
+              <button className="results-btn yes" onClick={() => navigate(`/drill?mode=${confirmDrill.mode}&category=${confirmDrill.category}`)}>
+                Yes <span className="key-hint">Y</span>
+              </button>
+              <button className="results-btn no" onClick={() => setConfirmDrill(null)}>
+                No <span className="key-hint">N</span>
+              </button>
+            </div>
+          </div>
+        )}
         <table className="progress-table">
           <thead>
             <tr>
@@ -105,9 +133,8 @@ function ProgressPage() {
                 {modes.map((mode, colIndex) => (
                   <td key={mode}>
                     <span
-                      className={`progress-cell ${getBestResult(mode, category) ? 'attempted' : 'unattempted'} ${
-                        isUnlocked(mode, category) ? '' : 'progress-locked'
-                      } ${focusedRow === rowIndex && focusedCol === colIndex ? 'keyboard-focused' : ''}`}
+                      className={`progress-cell ${getBestResult(mode, category) ? 'attempted' : 'unattempted'} ${isUnlocked(mode, category) ? '' : 'progress-locked'
+                        } ${focusedRow === rowIndex && focusedCol === colIndex ? 'keyboard-focused' : ''}`}
                       onClick={() => handleCellClick(mode, category)}
                     >
                       {getCellContent(mode, category)}

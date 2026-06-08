@@ -62,8 +62,13 @@ function Library() {
       }
       if (e.key === 'Tab') {
         const currentIndex = CATEGORIES.indexOf(selectedCategory)
-        const nextIndex = (currentIndex + 1) % CATEGORIES.length
-        setSelectedCategory(CATEGORIES[nextIndex])
+        if (e.shiftKey) {
+          const prevIndex = (currentIndex - 1 + CATEGORIES.length) % CATEGORIES.length
+          setSelectedCategory(CATEGORIES[prevIndex])
+        } else {
+          const nextIndex = (currentIndex + 1) % CATEGORIES.length
+          setSelectedCategory(CATEGORIES[nextIndex])
+        }
         setExpanded(null)
         setFocusedIndex(null)
       }
@@ -89,6 +94,14 @@ function Library() {
       window.removeEventListener('mousemove', handleMouseMove)
     }
   }, [focusedIndex, filtered, expanded])
+
+  useEffect(() => {
+    if (focusedIndex === null) return
+    const items = document.querySelectorAll('.library-item')
+    if (items[focusedIndex]) {
+      items[focusedIndex].scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [focusedIndex])
 
   return (
     <div

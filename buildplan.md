@@ -15,6 +15,7 @@
 - ✅ Mac compatibility indicators — Linux-only commands flagged with Mac equivalents
 - ✅ Passkey protection — environment variable based, persists in localStorage
 - ✅ Landing screen — explains the concept and unlock system to new users
+- ✅ Keyboard navigation throughout the app (e.g. number keys for recognition answers, arrow keys for grids)
 
 ## Upcoming
 
@@ -29,10 +30,10 @@ Seeking advice on best place to host a URL.
 Adding to personal GitHub and deploying to Netlify is a fallback. 
 
 ### Potential future features
-- Keyboard navigation throughout the app (e.g. number keys for recognition answers, arrow keys for grids)
 - Hint system (currently decided against — undermines satisfaction)
 - Guided journey A/B option for experienced users who want freedom of mode access
 - Leaderboard (requires user accounts)
 - Additional command sets beyond the core 50, this definitely will happen for personal learning. 
 - Mobile responsive layout
 - Accessibility mode > everything is more visible 
+- Full keyboard navigation for nav rail (press `/` to focus, arrow keys to navigate) — complex due to event listener conflicts with page-level keyboard handlers, needs careful architecture

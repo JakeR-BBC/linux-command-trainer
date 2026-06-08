@@ -32,14 +32,12 @@ function Library() {
 
   useEffect(() => {
     function handleKeyDown(e) {
-      console.log('key pressed:', e.key)
       if (!['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Backspace', 'Tab'].includes(e.key)) return
       e.preventDefault()
 
       if (e.key === 'ArrowDown') {
         setFocusedIndex(prev => {
           const next = prev === null ? 0 : Math.min(prev + 1, filtered.length - 1)
-          console.log('focusedIndex:', next)
           return next
         })
       }

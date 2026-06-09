@@ -40,6 +40,7 @@ function Accessibility() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (e.key === 'Escape') navigate('/')
     }
     window.addEventListener('keydown', handleKeyDown)

@@ -76,6 +76,7 @@ function DrillScreen() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (e.key === 'Escape') navigate(`/modes?category=${selected}`)
       if (e.key === 'Tab') {
         e.preventDefault()

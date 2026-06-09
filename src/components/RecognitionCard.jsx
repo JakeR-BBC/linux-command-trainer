@@ -24,6 +24,7 @@ function RecognitionCard({ command, pool, onSubmit, disabled }) {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (selected || disabled) return
       const index = parseInt(e.key) - 1
       if (index >= 0 && index < options.length) {

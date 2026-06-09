@@ -32,6 +32,7 @@ function Library() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (!['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Backspace', 'Tab'].includes(e.key)) return
       e.preventDefault()
 

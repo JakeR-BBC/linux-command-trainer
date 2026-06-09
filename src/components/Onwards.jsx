@@ -40,6 +40,7 @@ function Onwards() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (backButtonFocused) {
         if (e.key === 'Enter') { navigate('/category'); return }
         if (e.key === 'ArrowUp') { setBackButtonFocused(false); return }

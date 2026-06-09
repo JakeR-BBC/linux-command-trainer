@@ -6,6 +6,7 @@ function Landing() {
 
     useEffect(() => {
         function handleKeyDown(e) {
+            if (document.body.classList.contains('nav-focused')) return
             if (e.key === 'Enter') navigate('/category')
         }
         window.addEventListener('keydown', handleKeyDown)

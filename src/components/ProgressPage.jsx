@@ -61,6 +61,7 @@ function ProgressPage() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (confirmDrill) {
         if (e.key === 'y' || e.key === 'Y') {
           navigate(`/drill?mode=${confirmDrill.mode}&category=${confirmDrill.category}`)

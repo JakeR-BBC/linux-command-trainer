@@ -4,13 +4,11 @@ function MacBadge({ command, show, onDismiss }) {
   const listenersRef = useRef(null)
 
   useEffect(() => {
-    console.log('MacBadge effect fired, show:', show)
     if (!show) return
 
     const timer = setTimeout(() => {
-      console.log('Adding listeners')
       function dismiss(e) {
-        console.log('Dismiss fired by:', e.type)
+        if (document.body.classList.contains('nav-focused')) return
         onDismiss()
       }
 
@@ -20,7 +18,6 @@ function MacBadge({ command, show, onDismiss }) {
     }, 300)
 
     return () => {
-      console.log('Cleanup fired')
       clearTimeout(timer)
       if (listenersRef.current) {
         window.removeEventListener('keydown', listenersRef.current)

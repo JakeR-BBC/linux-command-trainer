@@ -31,6 +31,7 @@ Adding to personal GitHub and deploying to Netlify is a fallback.
 
 ### Potential future features
 - (Critical) Full keyboard navigation for nav rail (press `/` to focus, arrow keys to navigate) — complex due to event listener conflicts with page-level keyboard handlers, needs careful architecture
+- Re-architecture to use a global keyboard manager
 - Leaderboard (requires user accounts)
 - Additional command sets beyond the core 50, this definitely will happen for personal learning. 
 - Mobile responsive layout

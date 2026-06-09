@@ -63,6 +63,8 @@ function FocusList() {
   useEffect(() => {
     function handleKeyDown(e) {
 
+      if (document.body.classList.contains('nav-focused')) return
+
       if (confirmClear) {
         if (e.key === 'y' || e.key === 'Y') executeClear()
         if (e.key === 'n' || e.key === 'N' || e.key === 'Escape') setConfirmClear(false)

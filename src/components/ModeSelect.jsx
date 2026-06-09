@@ -32,6 +32,7 @@ function ModeSelect() {
 
   useEffect(() => {
     function handleKeyDown(e) {
+      if (document.body.classList.contains('nav-focused')) return
       if (['ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(e.key)) {
         e.preventDefault()
         setKeyboardNav(true)

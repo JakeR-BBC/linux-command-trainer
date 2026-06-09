@@ -768,6 +768,11 @@ h1 {
   border: 1px solid #28c840;
 }
 
+.progress-cell.attempted.amber {
+  color: #febc2e;
+  border-color: #febc2e;
+}
+
 .progress-cell.unattempted {
   color: #555;
   border: 1px solid #333;
@@ -792,9 +797,14 @@ h1 {
   border-color: #f0f0f0;
 }
 
-.progress-cell.attempted.amber {
-  color: #febc2e;
-  border-color: #febc2e;
+.progress-cell.attempted.amber.keyboard-focused {
+  background-color: #1a1a2e;
+  color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+
+body.keyboard-nav-active .progress-table {
+  pointer-events: none;
 }
 
 /* ============================================================
@@ -1343,7 +1353,7 @@ h1 {
 }
 
 .focus-clear-btn.keyboard-focused {
-    color: #f0f0f0;
+  color: #f0f0f0;
 }
 
 .back-btn.keyboard-focused {

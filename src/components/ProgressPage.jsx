@@ -80,10 +80,15 @@ function ProgressPage() {
       if (focusedRow === null || focusedCol === null) {
         setFocusedRow(0)
         setFocusedCol(0)
+        document.body.classList.add('keyboard-nav-active')
         return
       }
 
-      if (e.key === 'ArrowDown') setFocusedRow(prev => Math.min(prev + 1, categories.length - 1))
+      if (e.key === 'ArrowDown') {
+        console.log('keyboard-nav-active:', document.body.classList.contains('keyboard-nav-active'))
+        setFocusedRow(prev => Math.min(prev + 1, categories.length - 1))
+        document.body.classList.add('keyboard-nav-active')
+      }
       if (e.key === 'ArrowUp') setFocusedRow(prev => Math.max(prev - 1, 0))
       if (e.key === 'ArrowRight') setFocusedCol(prev => Math.min(prev + 1, modes.length - 1))
       if (e.key === 'ArrowLeft') setFocusedCol(prev => Math.max(prev - 1, 0))
@@ -97,6 +102,7 @@ function ProgressPage() {
     function handleMouseMove() {
       setFocusedRow(null)
       setFocusedCol(null)
+      document.body.classList.remove('keyboard-nav-active')
     }
 
     window.addEventListener('keydown', handleKeyDown)

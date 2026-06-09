@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 
 const shortcuts = [
   { screen: 'Landing', keys: '↵ Enter', action: 'Start' },
+  { screen: 'Anywhere (except drill input)', keys: '/', action: 'Toggle nav rail focus' },
   { screen: 'Accessibility (This page)', keys: 'Esc', action: 'Back to home' },
   { screen: 'Categories', keys: '↑↓←→', action: 'Navigate' },
   { screen: 'Categories', keys: '↵ Enter', action: 'Select' },

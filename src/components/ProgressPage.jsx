@@ -47,6 +47,8 @@ function ProgressPage() {
 
     const result = getBestResult(mode, category)
     if (!result) return `progress-cell unattempted ${focused}`
+
+    if (category === 'all' && result.accuracy >= 90) return `progress-cell attempted ${focused}`
     if (result.accuracy >= 80) return `progress-cell attempted ${focused}`
     return `progress-cell attempted amber ${focused}`
   }
@@ -135,9 +137,16 @@ function ProgressPage() {
           <thead>
             <tr>
               <th></th>
-              {modes.map(mode => (
-                <th key={mode}>{capitalise(mode)}</th>
-              ))}
+              {modes.map(mode => {
+                const allResult = getBestResult(mode, 'all')
+                const mastered = allResult && allResult.accuracy >= 90
+                return (
+                  <th key={mode}>
+                    {mastered && <span className="mode-trophy">🏆</span>}
+                    {capitalise(mode)}
+                  </th>
+                )
+              })}
             </tr>
           </thead>
           <tbody>

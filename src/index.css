@@ -739,6 +739,7 @@ h1 {
   padding: 0.6rem 0.8rem;
   text-align: center;
   border-bottom: 1px solid #222;
+  vertical-align: bottom;
 }
 
 .progress-table td {
@@ -805,6 +806,12 @@ h1 {
 
 body.keyboard-nav-active .progress-table {
   pointer-events: none;
+}
+
+.mode-trophy {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
 }
 
 /* ============================================================
@@ -995,7 +1002,8 @@ body.keyboard-nav-active .progress-table {
   text-align: center;
 }
 
-.onwards-section {
+.onwards-section,
+.onwards-achievement {
   background-color: #0d1117;
   border: 1px solid #222;
   border-radius: 8px;
@@ -1005,14 +1013,28 @@ body.keyboard-nav-active .progress-table {
   gap: 0.8rem;
 }
 
-.onwards-section-title {
+.onwards-achievement.mastered {
+  border-color: #febc2e;
+}
+
+.onwards-section-title,
+.onwards-achievement-title {
   color: #28c840;
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
-.onwards-section-body {
+.onwards-achievement.mastered .onwards-achievement-title {
+  color: #febc2e;
+}
+
+.onwards-achievement .onwards-section-title {
+  color: #28c840;
+}
+
+.onwards-section-body,
+.onwards-achievement p {
   color: #888;
   font-size: 0.9rem;
   line-height: 1.6;
@@ -1055,10 +1077,10 @@ body.keyboard-nav-active .progress-table {
   background-color: rgba(40, 200, 64, 0.1);
 }
 
-.onwards-footer {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 0.5rem;
+.onwards-btn.primary.keyboard-focused {
+  background-color: rgba(40, 200, 64, 0.2);
+  border-color: #28c840;
+  color: #28c840;
 }
 
 .onwards-btn.locked {
@@ -1066,6 +1088,12 @@ body.keyboard-nav-active .progress-table {
   cursor: default;
   border-color: #222;
   color: #555;
+}
+
+.onwards-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
 }
 
 /* ============================================================

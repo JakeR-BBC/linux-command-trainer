@@ -16,6 +16,7 @@
 - ✅ Passkey protection — environment variable based, persists in localStorage
 - ✅ Landing screen — explains the concept and unlock system to new users
 - ✅ Keyboard navigation throughout the app (e.g. number keys for recognition answers, arrow keys for grids)
+- ✅ Full keyboard navigation for nav rail (press `/` to focus, arrow keys to navigate) 
 
 ## Upcoming
 
@@ -30,8 +31,8 @@ Seeking advice on best place to host a URL.
 Adding to personal GitHub and deploying to Netlify is a fallback. 
 
 ### Potential future features
-- (Critical) Full keyboard navigation for nav rail (press `/` to focus, arrow keys to navigate) — complex due to event listener conflicts with page-level keyboard handlers, needs careful architecture
 - Re-architecture to use a global keyboard manager
 - Leaderboard (requires user accounts)
 - Additional command sets beyond the core 50, this definitely will happen for personal learning. 
 - Mobile responsive layout
+- Placement test — alternative entry point on landing screen for experienced users ("I already know Linux — Take a placement test"). Based on score, automatically unlocks appropriate tiers across all categories. Skipped tiers show as "Bypassed"

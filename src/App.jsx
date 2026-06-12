@@ -119,7 +119,6 @@ function DrillScreen() {
 
     if (isCorrect) {
       seenRef.current.add(command.id)
-      console.log('✅ correct:', command.id, 'seenRef size:', seenRef.current.size)
       correctRef.current += 1
 
       if (!command.mac_compatible) setShowMacPopup(true)
@@ -129,7 +128,6 @@ function DrillScreen() {
         setShowMacPopup(false)
         setQuestionNumber(prev => prev + 1)
         const next = nextCommand(command.id)
-        console.log('⏱️ timeout fired, advancing from:', command.id, 'next:', next?.id)
         if (!next) {
           endSession()
         } else {
@@ -162,7 +160,6 @@ function DrillScreen() {
   }
 
   function handleSkip() {
-    console.log('⏭️ skip:', command.id, 'seenRef size:', seenRef.current.size)
     if (sessionComplete) return
     if (!seenRef.current.has(command.id)) {
       seenRef.current.add(command.id)
@@ -217,14 +214,12 @@ function DrillScreen() {
         command={command}
         show={showMacPopup}
         onDismiss={() => {
-          console.log('🔔 dismiss fired, macTimeoutRef:', macTimeoutRef.current, 'command:', command.id)
           setShowMacPopup(false)
           if (macTimeoutRef.current) {
             clearTimeout(macTimeoutRef.current)
             macTimeoutRef.current = null
             setQuestionNumber(prev => prev + 1)
             const next = nextCommand(command.id)
-            console.log('🔔 advancing from dismiss, next:', next?.id)
             if (!next) {
               endSession()
             } else {
@@ -232,7 +227,6 @@ function DrillScreen() {
               setFeedback(null)
             }
           } else {
-            console.log('🔔 dismiss fired but timeout already cleared')
           }
         }}
       />

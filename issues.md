@@ -1,5 +1,5 @@
 - Started 
 - 12/06/2026
 - Pressing enter on a recognition drill screen randomly chooses an answer, needs to be suppressed (Recognition mode effected) 
-- Incorrect popup shows "Wrong, try again" in recognition mode, where there is no retry behaviour (Recognition mode effected) 
+- ✅  Incorrect popup shows "Wrong, try again" in recognition mode, where there is no retry behaviour (Recognition mode effected) 
 - ✅ MacBadge causes errant behaviour on subsequent question (Processes/Networking/Focus/All effected)

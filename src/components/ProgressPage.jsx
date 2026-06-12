@@ -87,7 +87,6 @@ function ProgressPage() {
       }
 
       if (e.key === 'ArrowDown') {
-        console.log('keyboard-nav-active:', document.body.classList.contains('keyboard-nav-active'))
         setFocusedRow(prev => Math.min(prev + 1, categories.length - 1))
         document.body.classList.add('keyboard-nav-active')
       }

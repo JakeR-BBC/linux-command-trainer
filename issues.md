@@ -1,0 +1,2 @@
+- Pressing enter on a recognition drill screen randomly chooses an answer, needs to be suppressed (Recognition mode effected) 
+- MacBadge causes errant behaviour on subsequent question (Processes/Networking/Focus/All effected)

@@ -11,9 +11,9 @@ function MacBadge({ command, show, onDismiss }) {
         if (document.body.classList.contains('nav-focused')) return
         onDismiss()
       }
-
       window.addEventListener('keydown', dismiss)
       window.addEventListener('mousedown', dismiss)
+
       listenersRef.current = dismiss
     }, 300)
 

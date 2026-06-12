@@ -119,13 +119,17 @@ function DrillScreen() {
 
     if (isCorrect) {
       seenRef.current.add(command.id)
+      console.log('✅ correct:', command.id, 'seenRef size:', seenRef.current.size)
       correctRef.current += 1
 
       if (!command.mac_compatible) setShowMacPopup(true)
 
       macTimeoutRef.current = setTimeout(() => {
+        macTimeoutRef.current = null
+        setShowMacPopup(false)
         setQuestionNumber(prev => prev + 1)
         const next = nextCommand(command.id)
+        console.log('⏱️ timeout fired, advancing from:', command.id, 'next:', next?.id)
         if (!next) {
           endSession()
         } else {
@@ -158,6 +162,7 @@ function DrillScreen() {
   }
 
   function handleSkip() {
+    console.log('⏭️ skip:', command.id, 'seenRef size:', seenRef.current.size)
     if (sessionComplete) return
     if (!seenRef.current.has(command.id)) {
       seenRef.current.add(command.id)
@@ -212,31 +217,37 @@ function DrillScreen() {
         command={command}
         show={showMacPopup}
         onDismiss={() => {
+          console.log('🔔 dismiss fired, macTimeoutRef:', macTimeoutRef.current, 'command:', command.id)
           setShowMacPopup(false)
           if (macTimeoutRef.current) {
             clearTimeout(macTimeoutRef.current)
+            macTimeoutRef.current = null
+            setQuestionNumber(prev => prev + 1)
             const next = nextCommand(command.id)
+            console.log('🔔 advancing from dismiss, next:', next?.id)
             if (!next) {
               endSession()
             } else {
               setCommand(next)
               setFeedback(null)
             }
+          } else {
+            console.log('🔔 dismiss fired but timeout already cleared')
           }
         }}
       />
       {mode === 'recognition'
         ? <RecognitionCard
-            command={command}
-            pool={getActivePool()}
-            onSubmit={handleSubmit}
-            disabled={sessionComplete}
-          />
+          command={command}
+          pool={getActivePool()}
+          onSubmit={handleSubmit}
+          disabled={sessionComplete}
+        />
         : mode === 'realism' || mode === 'mastery'
           ? <ChallengeCard
-              challenge={command.challenges?.find(ch => ch.mode === mode)}
-              onSubmit={handleSubmit}
-            />
+            challenge={command.challenges?.find(ch => ch.mode === mode)}
+            onSubmit={handleSubmit}
+          />
           : <DrillCard command={command} onSubmit={handleSubmit} disabled={false} />
       }
       {feedback && (

@@ -36,3 +36,4 @@ Adding to personal GitHub and deploying to Netlify is a fallback.
 - Additional command sets beyond the core 50, this definitely will happen for personal learning. 
 - Mobile responsive layout
 - Placement test — alternative entry point on landing screen for experienced users ("I already know Linux — Take a placement test"). Based on score, automatically unlocks appropriate tiers across all categories. Skipped tiers show as "Bypassed"
+- Add a platinum trophy for 100% mode completion

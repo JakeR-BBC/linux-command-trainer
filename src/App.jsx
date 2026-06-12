@@ -252,7 +252,10 @@ function DrillScreen() {
       }
       {feedback && (
         <p className={`feedback ${feedback}`}>
-          {feedback === 'correct' ? '✅ Correct!' : '❌ Wrong, try again'}
+          {feedback === 'correct' ? '✅ Correct!'
+            : mode === 'recognition' ? '❌ Incorrect'
+              : (attempts[command?.id] || 0) >= 2 ? '❌ Incorrect'
+                : '❌ Incorrect, 1 attempt remaining'}
         </p>
       )}
       <div className="drill-footer">

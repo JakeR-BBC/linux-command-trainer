@@ -26,6 +26,7 @@ function RecognitionCard({ command, pool, onSubmit, disabled }) {
     function handleKeyDown(e) {
       if (document.body.classList.contains('nav-focused')) return
       if (e.repeat) return
+      if (e.key === 'Enter') return
       if (selected || disabled) return
       const index = parseInt(e.key) - 1
       if (index >= 0 && index < options.length) {

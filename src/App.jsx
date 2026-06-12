@@ -34,45 +34,44 @@ function DrillScreen() {
       }
       return base
     }
-
-    const base = isAll
-      ? commands
-      : commands.filter(c => c.category === selected)
-
+    const base = isAll ? commands : commands.filter(c => c.category === selected)
     const withChallenges = (mode === 'realism' || mode === 'mastery')
       ? base.filter(cmd => cmd.challenges?.some(ch => ch.mode === mode))
       : base
-
     return withChallenges
   }
 
+  // Refs for values that need to be current inside callbacks
+  const seenRef = useRef(new Set())
+  const correctRef = useRef(0)
+  const incorrectRef = useRef(0)
+  const skippedRef = useRef(0)
+  const macTimeoutRef = useRef(null)
+  const finalResultRef = useRef(null)
+
+  // State for UI rendering only
   const [command, setCommand] = useState(() => {
     const pool = getActivePool()
     if (pool.length === 0) return null
     return pool[Math.floor(Math.random() * pool.length)]
   })
   const [feedback, setFeedback] = useState(null)
-  const macTimeoutRef = useRef(null)
-  const [seen, setSeen] = useState(new Set())
-  const [correct, setCorrect] = useState(0)
-  const [incorrect, setIncorrect] = useState(0)
-  const [skipped, setSkipped] = useState(0)
   const [attempts, setAttempts] = useState({})
   const [sessionComplete, setSessionComplete] = useState(false)
   const [newBest, setNewBest] = useState(false)
   const [showMacPopup, setShowMacPopup] = useState(false)
-  const finalResultRef = useRef(null)
   const [incorrectIds, setIncorrectIds] = useState([])
+  const [questionNumber, setQuestionNumber] = useState(1)
 
   useEffect(() => {
     const total = getActivePool().length
-    const current = Math.min(seen.size + 1, total)
+    const current = Math.min(questionNumber, total)
     const newParams = new URLSearchParams(window.location.search)
     newParams.set('current', current)
     newParams.set('total', total)
     window.history.replaceState(null, '', `?${newParams.toString()}`)
     window.dispatchEvent(new Event('locationchange'))
-  }, [seen])
+  }, [questionNumber])
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -85,20 +84,25 @@ function DrillScreen() {
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selected, seen, correct, incorrect, skipped, sessionComplete])
+  }, [selected, sessionComplete, command])
 
-  function nextCommand(currentId, seenOverride) {
+  function nextCommand(currentId) {
     const pool = getActivePool()
-    const seenSet = seenOverride || seen
-    const unseen = pool.filter(c => c.id !== currentId && !seenSet.has(c.id))
+    const unseen = pool.filter(c => c.id !== currentId && !seenRef.current.has(c.id))
     if (unseen.length === 0) return null
     return unseen[Math.floor(Math.random() * unseen.length)]
   }
 
-  function endSession(finalCorrect, finalIncorrect, finalSkipped, finalSeen) {
-    const total = finalSeen.size
-    const accuracy = total > 0 ? Math.round((finalCorrect / total) * 100) : 0
-    const result = { correct: finalCorrect, incorrect: finalIncorrect, skipped: finalSkipped, accuracy, total }
+  function endSession() {
+    const total = seenRef.current.size
+    const accuracy = total > 0 ? Math.round((correctRef.current / total) * 100) : 0
+    const result = {
+      correct: correctRef.current,
+      incorrect: incorrectRef.current,
+      skipped: skippedRef.current,
+      accuracy,
+      total
+    }
     const isNewBest = saveResult(mode, selected, result)
     finalResultRef.current = result
     setNewBest(isNewBest)
@@ -114,19 +118,16 @@ function DrillScreen() {
     setFeedback(isCorrect ? 'correct' : 'incorrect')
 
     if (isCorrect) {
-      const updatedSeen = new Set(seen).add(command.id)
-      setSeen(updatedSeen)
-      const newCorrect = correct + 1
-      setCorrect(newCorrect)
+      seenRef.current.add(command.id)
+      correctRef.current += 1
 
-      if (!command.mac_compatible) {
-        setShowMacPopup(true)
-      }
+      if (!command.mac_compatible) setShowMacPopup(true)
 
       macTimeoutRef.current = setTimeout(() => {
-        const next = nextCommand(command.id, updatedSeen)
+        setQuestionNumber(prev => prev + 1)
+        const next = nextCommand(command.id)
         if (!next) {
-          endSession(newCorrect, incorrect, skipped, updatedSeen)
+          endSession()
         } else {
           setCommand(next)
           setFeedback(null)
@@ -138,16 +139,15 @@ function DrillScreen() {
       setAttempts(prev => ({ ...prev, [command.id]: currentAttempts }))
 
       if (mode === 'recognition' || currentAttempts >= 2) {
-        const updatedSeen = new Set(seen).add(command.id)
-        setSeen(updatedSeen)
-        const newIncorrect = incorrect + 1
-        setIncorrect(newIncorrect)
+        seenRef.current.add(command.id)
+        incorrectRef.current += 1
         setIncorrectIds(prev => [...new Set([...prev, command.id])])
 
         setTimeout(() => {
-          const next = nextCommand(command.id, updatedSeen)
+          setQuestionNumber(prev => prev + 1)
+          const next = nextCommand(command.id)
           if (!next) {
-            endSession(correct, newIncorrect, skipped, updatedSeen)
+            endSession()
           } else {
             setCommand(next)
             setFeedback(null)
@@ -159,13 +159,14 @@ function DrillScreen() {
 
   function handleSkip() {
     if (sessionComplete) return
-    const updatedSeen = new Set(seen).add(command.id)
-    setSeen(updatedSeen)
-    const newSkipped = skipped + 1
-    setSkipped(newSkipped)
-    const next = nextCommand(command.id, updatedSeen)
+    if (!seenRef.current.has(command.id)) {
+      seenRef.current.add(command.id)
+      skippedRef.current += 1
+    }
+    setQuestionNumber(prev => prev + 1)
+    const next = nextCommand(command.id)
     if (!next) {
-      endSession(correct, incorrect, newSkipped, updatedSeen)
+      endSession()
     } else {
       setCommand(next)
       setFeedback(null)
@@ -203,7 +204,8 @@ function DrillScreen() {
       <h1>Linux Command Trainer</h1>
       <p className="prompt">
         {mode === 'scenario' ? command.scenario
-          : mode === 'realism' || mode === 'mastery' ? command.challenges?.find(c => c.mode === mode)?.prompt
+          : mode === 'realism' || mode === 'mastery'
+            ? command.challenges?.find(ch => ch.mode === mode)?.prompt
             : command.short_desc}
       </p>
       <MacBadge
@@ -213,10 +215,9 @@ function DrillScreen() {
           setShowMacPopup(false)
           if (macTimeoutRef.current) {
             clearTimeout(macTimeoutRef.current)
-            const updatedSeen = new Set(seen)
-            const next = nextCommand(command.id, updatedSeen)
+            const next = nextCommand(command.id)
             if (!next) {
-              endSession(correct, incorrect, skipped, updatedSeen)
+              endSession()
             } else {
               setCommand(next)
               setFeedback(null)
@@ -226,16 +227,16 @@ function DrillScreen() {
       />
       {mode === 'recognition'
         ? <RecognitionCard
-          command={command}
-          pool={getActivePool()}
-          onSubmit={handleSubmit}
-          disabled={sessionComplete}
-        />
+            command={command}
+            pool={getActivePool()}
+            onSubmit={handleSubmit}
+            disabled={sessionComplete}
+          />
         : mode === 'realism' || mode === 'mastery'
           ? <ChallengeCard
-            challenge={command.challenges?.find(c => c.mode === mode)}
-            onSubmit={handleSubmit}
-          />
+              challenge={command.challenges?.find(ch => ch.mode === mode)}
+              onSubmit={handleSubmit}
+            />
           : <DrillCard command={command} onSubmit={handleSubmit} disabled={false} />
       }
       {feedback && (

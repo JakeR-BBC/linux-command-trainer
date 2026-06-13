@@ -25,15 +25,16 @@ function Onwards() {
   const modeIndex = MODES.indexOf(mode)
   const nextMode = MODES[modeIndex + 1]
 
-  const scoreQualifies = score >= UNLOCK_THRESHOLD
-
   const remainingCategories = categories.filter(cat => {
     if (cat === category) return false
     const result = getBestResult(mode, cat)
-    return !result
+    return !result || result.accuracy < UNLOCK_THRESHOLD
   })
 
+  // Suppress allCategoriesComplete if All Commands for this mode has already been attempted
+  const allCommandsResult = getBestResult(mode, 'all')
   const allCategoriesComplete = category !== 'all' &&
+    !allCommandsResult &&
     categories.every(cat => {
       const result = getBestResult(mode, cat)
       return result && result.accuracy >= 80
@@ -50,6 +51,9 @@ function Onwards() {
       ? isAllUnlocked(nextMode, commands)
       : isModeUnlocked(nextMode, category, commands)
   )
+
+  // Suppress next mode message if next mode has already been attempted
+  const nextModeAttempted = nextMode && getBestResult(nextMode, category)
 
   const focusableButtons = [
     allCategoriesComplete && { id: 'achievement', action: () => navigate(`/drill?mode=${mode}&category=all`) },
@@ -130,9 +134,8 @@ function Onwards() {
 
       {allCategoriesComplete && (
         <div className="onwards-achievement">
-          <p className="onwards-section-title">🔑 All Commands {capitalise(mode)} unlocked</p>
-          <p>You've completed {capitalise(mode)} drills for all the specific categories.</p>
-          <p>Beat the All Commands drill in {capitalise(mode)} mode to claim your trophy!</p>
+          <p className="onwards-section-title">🔑 You have an opportunity to earn a trophy</p>
+          <p>Beat the All Commands drill in {capitalise(mode)} mode to claim it!</p>
           <button
             className={`onwards-btn primary ${isFocused('achievement') ? 'keyboard-focused' : ''}`}
             onClick={() => navigate(`/drill?mode=${mode}&category=all`)}
@@ -153,7 +156,6 @@ function Onwards() {
         <div className="onwards-achievement">
           <p className="onwards-section-title">Not quite</p>
           <p>You scored {score}% on All Commands / {capitalise(mode)} mode. Score 90% or higher to claim your trophy.</p>
-          <p>The path of champions:</p>
           <button
             className={`onwards-btn primary ${isFocused('retry') ? 'keyboard-focused' : ''}`}
             onClick={() => navigate(`/drill?mode=${mode}&category=all`)}
@@ -169,7 +171,7 @@ function Onwards() {
             Keep building your {capitalise(mode)} skills
           </p>
           <p className="onwards-section-body">
-            You haven't tried these categories in {capitalise(mode)} mode yet:
+            These categories in {capitalise(mode)} mode remain unbeaten.
           </p>
           <div className="onwards-grid">
             {unlockedRemaining.map((cat, index) => (
@@ -199,11 +201,11 @@ function Onwards() {
           {nextMode ? (
             nextModeUnlocked ? (
               <>
-                <p className="onwards-section-body">
-                  {scoreQualifies
-                    ? `🔑 Your score of ${score}% has unlocked ${capitalise(nextMode)} mode for ${capitalise(category)}.`
-                    : `${capitalise(nextMode)} is available for ${capitalise(category)}.`}
-                </p>
+                {!nextModeAttempted && (
+                  <p className="onwards-section-body">
+                    🔑 {capitalise(nextMode)} mode for {capitalise(category)} is available.
+                  </p>
+                )}
                 <button
                   className={`onwards-btn primary ${isFocused('deeper') ? 'keyboard-focused' : ''}`}
                   onClick={() => navigate(`/drill?mode=${nextMode}&category=${category}`)}

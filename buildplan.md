@@ -38,3 +38,4 @@ Adding to personal GitHub and deploying to Netlify is a fallback.
 - Placement test — alternative entry point on landing screen for experienced users ("I already know Linux — Take a placement test"). Based on score, automatically unlocks appropriate tiers across all categories. Skipped tiers show as "Bypassed"
 - Add a platinum trophy for 100% mode completion
 - Stabilise UI on drill screens, minimise rednering changes between questions
+- Add timers to heighten sense of gamification

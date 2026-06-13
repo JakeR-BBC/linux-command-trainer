@@ -139,9 +139,15 @@ function ProgressPage() {
               {modes.map(mode => {
                 const allResult = getBestResult(mode, 'all')
                 const mastered = allResult && allResult.accuracy >= 90
+                const categories = [...new Set(commands.map(c => c.category))]
+                const platinum = mastered && categories.every(cat => {
+                  const result = getBestResult(mode, cat)
+                  return result && result.accuracy === 100
+                })
                 return (
                   <th key={mode}>
-                    {mastered && <span className="mode-trophy">🏆</span>}
+                    {platinum && <span className="mode-trophy">💎</span>}
+                    {!platinum && mastered && <span className="mode-trophy">🏆</span>}
                     {capitalise(mode)}
                   </th>
                 )
